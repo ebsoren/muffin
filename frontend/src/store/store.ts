@@ -1,0 +1,29 @@
+import { configureStore } from '@reduxjs/toolkit';
+import statusReducer from './slices/statusSlice';
+import eventReducer from './slices/eventSlice'
+import boardReducer from './slices/boardSlice'
+import recruitingReducer from './slices/recruitingSlice'
+import featureReducer from './slices/featureSlice'
+import membersReducer from './slices/memberSlice'
+
+// Import reducers here as we create them
+// import authReducer from './slices/authSlice';
+// import userReducer from './slices/userSlice';
+
+export const store = configureStore({
+  reducer: {
+    status: statusReducer,
+    events: eventReducer,
+    board: boardReducer,
+    recruiting: recruitingReducer,
+    features: featureReducer,
+    members: membersReducer
+    
+    // auth: authReducer,
+    // user: userReducer,
+  },
+});
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch; 

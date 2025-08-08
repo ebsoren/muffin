@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));                        
+
+@theme {
+  --color-flat-gold: #CFAE70;
+  --color-flat-gold-hover: #B8941F;
+  --color-custom-black: #1C1C1C;
+  --color-custom-black-hover: #0C0C0C;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Light mode (default) */
+  background-color: white;
+  color: #1C1C1C;
+}
+
+/* Dark mode */
+:root.dark {
+  background-color: var(--color-custom-black);
+  color: white;
+}
+
+
+h1 {
+  font-size: 3rem;
+}
+
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+
+
+
