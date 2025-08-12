@@ -1,7 +1,9 @@
 export interface ClubEvent {
-    title: string
-    img: string
-    description: string
-    date: string
-    location: string
+    id: number
+    title: string | null
+    image: string | null
+    description: string | null
+    date: string | null
+    location: string | null
+    event_type: string
   }

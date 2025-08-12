@@ -7,10 +7,8 @@ export const eventSlice = createSlice({
   name: 'events',
   initialState,
   reducers: {
-    setEvents: (state, action: PayloadAction<[]>) => {
-        state = action.payload
-        return state
-
+    setEvents: (_, action: PayloadAction<ClubEvent[]>) => {
+        return action.payload
     },
   },
 });

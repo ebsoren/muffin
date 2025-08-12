@@ -1,11 +1,8 @@
 import { useAppSelector } from '../../../store/hooks';
-import type { Member } from '../../../store/slices/types/Member';
 import { BoardMember } from './BoardMember';
 
 export default function Board() {
-  // const boardMembers = useAppSelector(state => state.board);
-  const M: Member = {name: "Adam Burns", img: "", linkedIn: "https://www.linkedin.com/in/adamburns27/", title: "President"}
-  const boardMembers: Member[] = [M,M,M,M,M]
+  const boardMembers = useAppSelector(state => state.board);
   return (
     <div className="w-full bg-white dark:bg-custom-black duration-200 py-8">
         <h1 className="text-2xl font-bold text-flat-gold dark:text-white mb-8 text-center">

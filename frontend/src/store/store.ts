@@ -5,10 +5,7 @@ import boardReducer from './slices/boardSlice'
 import recruitingReducer from './slices/recruitingSlice'
 import featureReducer from './slices/featureSlice'
 import membersReducer from './slices/memberSlice'
-
-// Import reducers here as we create them
-// import authReducer from './slices/authSlice';
-// import userReducer from './slices/userSlice';
+import authReducer from './slices/authSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,10 +14,8 @@ export const store = configureStore({
     board: boardReducer,
     recruiting: recruitingReducer,
     features: featureReducer,
-    members: membersReducer
-    
-    // auth: authReducer,
-    // user: userReducer,
+    members: membersReducer,
+    auth: authReducer,
   },
 });
 

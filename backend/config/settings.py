@@ -10,23 +10,36 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m8)d9q(gx&3b4k(tz8#9(yave$vg1%olflr!s(18wsd3847zi#'
+SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True,
+    )
+}
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+# Using default Django user model
 
 # Application definition
 
@@ -37,9 +50,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
+    'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
+    'api',
+    'drf_spectacular',
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "VSBC API",
+    "DESCRIPTION": "Read-only endpoints for members and events",
+    "VERSION": "1.0.0",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,10 +82,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-]
-
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -74,17 +102,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
@@ -122,6 +139,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Supabase Configuration
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_ANON_KEY = os.getenv('SUPABASE_ANON_KEY')
+SUPABASE_SERVICE_ROLE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY')
+SUPABASE_MEDIA_BUCKET = os.getenv('SUPABASE_MEDIA_BUCKET', 'media')
+SUPABASE_PROFILE_BUCKET = os.getenv('SUPABASE_PROFILE_BUCKET', 'profile-pics')
+SUPABASE_EVENT_BUCKET = os.getenv('SUPABASE_EVENT_BUCKET', 'event-images')
+
+# Google OAuth Configuration
+GOOGLE_OAUTH_CLIENT_ID = os.getenv('GOOGLE_OAUTH_CLIENT_ID')
+GOOGLE_OAUTH_CLIENT_SECRET = os.getenv('GOOGLE_OAUTH_CLIENT_SECRET')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

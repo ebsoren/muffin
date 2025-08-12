@@ -8,7 +8,7 @@ export const boardSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    setBoard: (state, action: PayloadAction<[]>) => {
+    setBoard: (state, action: PayloadAction<Member[]>) => {
         state = action.payload
         return state
 

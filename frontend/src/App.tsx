@@ -7,9 +7,16 @@ import { About } from './pages/About/About';
 import { Events } from './pages/Events/Events';
 import { Join } from './pages/Join/Join';
 import { Home } from './pages/Home/Home';
+import { Admin } from './pages/Admin/Admin';
+import { Members } from './pages/Members/Members';
+import { AuthCallback } from './pages/AuthCallback/AuthCallback';
 import Footer from './components/Footer/Footer';
+import { useAuth } from './hooks/useAuth';
 
 function AppContent() {
+  // Check authentication on app startup
+  useAuth();
+
   return (
     <div className="w-full min-h-screen flex flex-col bg-white dark:bg-custom-black duration-200">
       <NavBar />
@@ -19,6 +26,9 @@ function AppContent() {
           <Route path="/about" element={<About />} />
           <Route path="/events" element={<Events />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
         </Routes>
       </main>
       <Footer />

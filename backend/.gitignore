@@ -1,11 +1,7 @@
-env/
+.venv/
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.pyw
-*.pyz
-*.pywz
-*.pyzw
-*.pyzwz
+*.py[cod]
 db.sqlite3
+.env
+migrations/
+openapi.yaml

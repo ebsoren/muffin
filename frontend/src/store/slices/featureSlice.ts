@@ -7,7 +7,7 @@ export const featureSlice = createSlice({
   name: 'features',
   initialState,
   reducers: {
-    setFeatures: (state, action: PayloadAction<[]>) => {
+    setFeatures: (state, action: PayloadAction<ClubEvent[]>) => {
         state = action.payload
         return state
 

@@ -1,17 +1,20 @@
 import type { Member } from "../../../store/slices/types/Member";
-
+import { getProfileImageUrl } from "../../../utils/supabase";
 
 interface MemberProps {
   member: Member;
 }
 
 export function MemberBox({ member }: MemberProps) {
+  console.log(member.image)
+  const imageUrl = getProfileImageUrl(member.image);
+  console.log(imageUrl)
   return (
     <div className="flex flex-col items-center text-center">
       {/* Circular Image */}
       <div className="w-32 h-32 rounded-full overflow-hidden mb-4 shadow-lg">
         <img 
-          src={member.img} 
+          src={imageUrl || '/default-avatar.svg'} 
           alt={member.name}
           className="w-full h-full object-cover"
         />
@@ -23,7 +26,7 @@ export function MemberBox({ member }: MemberProps) {
           {member.name}
         </h3>
         <a 
-          href={member.linkedIn} 
+          href={member.linkedIn || ''} 
           target="_blank" 
           rel="noopener noreferrer"
           className="text-blue-600 hover:text-blue-800 transition-colors"

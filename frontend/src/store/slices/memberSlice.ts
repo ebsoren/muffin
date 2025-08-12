@@ -8,10 +8,8 @@ export const memberSlice = createSlice({
   name: 'members',
   initialState,
   reducers: {
-    setMembers: (state, action: PayloadAction<[]>) => {
-        state = action.payload
-        return state
-
+    setMembers: (_, action: PayloadAction<Member[]>) => {
+        return action.payload
     },
   },
 });

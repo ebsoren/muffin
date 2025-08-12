@@ -7,7 +7,7 @@ export const recruitingSlice = createSlice({
   name: 'recruiting',
   initialState,
   reducers: {
-    setRecruitingEvents: (state, action: PayloadAction<[]>) => {
+    setRecruitingEvents: (state, action: PayloadAction<ClubEvent[]>) => {
         state = action.payload
         return state
 

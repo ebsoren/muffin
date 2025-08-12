@@ -1,4 +1,36 @@
-# React + TypeScript + Vite
+# VSBC Frontend
+
+This is the frontend application for VSBC, built with React + TypeScript + Vite.
+
+## Environment Variables
+
+Create a `.env` file in the frontend directory with the following variables:
+
+```env
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# Storage Buckets
+VITE_SUPABASE_MEDIA_BUCKET=media
+VITE_SUPABASE_PROFILE_BUCKET=profile
+VITE_SUPABASE_EVENT_BUCKET=event
+
+# API Configuration
+VITE_API_URL=http://localhost:8000/api
+
+# Google OAuth (if using Google registration)
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+```
+
+### Important Notes
+
+- **VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY**: These are required for Google OAuth authentication through Supabase.
+- **Google OAuth**: Users authenticate directly through Google OAuth via Supabase, ensuring proper authentication and RLS policy compliance.
+- **VITE_SUPABASE_SERVICE_ROLE_KEY**: This is optional now but may be needed for other admin operations.
+
+## Development
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
