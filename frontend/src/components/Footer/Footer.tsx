@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="flex px-1 gap-16">
           {/* Contact Us */}
           <div className="flex-shrink-0 min-w-0">
-            <h3 className="text-xl font-semibold mb-4 whitespace-nowrap">Contact Us</h3>
+          <div className="text-xl font-semibold mb-4 whitespace-nowrap">Contact Us</div>
             <div className="space-y-2">
               <p className="whitespace-nowrap">vsbc@vanderbilt.edu</p>
               <p className="whitespace-nowrap">Nashville, TN 37235</p>
@@ -24,7 +24,7 @@ export default function Footer() {
 
           {/* Connect */}
           <div className="flex-shrink-0 min-w-0">
-            <h3 className="text-xl font-semibold mb-4 whitespace-nowrap">Connect</h3>
+            <div className="text-xl font-semibold mb-4 whitespace-nowrap">Connect</div>
             <div className="flex gap-4">
               <a target="_blank" rel="noopener noreferrer" href="https://groupme.com/join_group/103038683/9a9nPuLp" aria-label="GroupMe" className="text-white hover:text-blue-400 transition-colors">
                 <img
@@ -65,7 +65,7 @@ export default function Footer() {
 
           {/* Interest Forms */}
           <div className="flex-shrink-0 min-w-0">
-            <h3 className="text-xl font-semibold mb-3 whitespace-nowrap">Interest Forms</h3>
+            <div className="text-xl font-semibold mb-3 whitespace-nowrap">Interest Forms</div>
             <div className="space-y-1">
               <a
                 href="https://groupme.com/join_group/103038683/9a9nPuLp"

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import MemberForm from './MemberForm';
 import MemberList from './MemberList';
-import type { Member } from '../../../store/slices/types/Member';
+import type { Member } from '../../../types/Member';
 
 export default function MemberManagement() {
   const [members, setMembers] = useState<Member[]>([]);
@@ -129,7 +129,7 @@ export default function MemberManagement() {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Member Management</h2>
+        <div className="text-2xl font-bold text-gray-900 dark:text-white">Member Management</div>
         <button
           onClick={() => setShowForm(true)}
           className="bg-flat-gold hover:bg-flat-gold-hover text-white px-4 py-2 rounded-md"

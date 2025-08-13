@@ -1,3 +1,5 @@
+export type EventType = 'recruiting' | 'club' | 'featured'
+
 export interface ClubEvent {
     id: number
     title: string | null
@@ -5,5 +7,5 @@ export interface ClubEvent {
     description: string | null
     date: string | null
     location: string | null
-    event_type: string
+    event_type: EventType
   }

@@ -1,4 +1,4 @@
-import type { ClubEvent } from "../../store/slices/types/Event";
+import type { ClubEvent } from "../../types/Event";
 import { getEventImageUrl } from "../../utils/supabase";
 
 interface EventBoxProps {
@@ -33,9 +33,9 @@ export function EventBox({ event, size }: EventBoxProps) {
         <div className="flex-1"></div>
 
         {/* Title */}
-        <h2 className="text-3xl font-bold leading-tight text-white">
+        <div className="text-3xl font-bold leading-tight text-white">
           {event.title}
-        </h2>
+        </div>
 
         {/* All text content - moved to bottom */}
         <div className="">

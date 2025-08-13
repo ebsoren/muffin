@@ -14,12 +14,10 @@ export function AuthCallback() {
 
   useEffect(() => {
     const handleAuthCallback = async () => {
-      console.log('AuthCallback: handleAuthCallback called, current state:', { isAuthenticated, user });
       
       try {
         // If user is already authenticated by the global listener, redirect immediately
         if (isAuthenticated && user) {
-          console.log('AuthCallback: User already authenticated, redirecting...');
           navigate('/', { replace: true });
           return;
         }
@@ -27,42 +25,32 @@ export function AuthCallback() {
         // Get the session from Supabase
         const { data: { session }, error } = await supabase.auth.getSession();
         
-        console.log('AuthCallback: Supabase session check result:', { session, error });
-        
         if (error) {
-          console.error('Error getting session:', error);
           setError(error.message);
           setIsProcessing(false);
           return;
         }
 
         if (session) {
-          // User is authenticated with Supabase
-          console.log('AuthCallback: User authenticated with Supabase:', session.user);
           
           try {
             const userData = await extractUserDataFromSession(session);
 
-            console.log('AuthCallback: Dispatching supabaseAuthSuccess with user data:', userData);
-            
             // Dispatch auth success
             dispatch(supabaseAuthSuccess({ user: userData, token: session.access_token }));
             
             // Redirect to home page or dashboard
             navigate('/', { replace: true });
           } catch (error) {
-            console.error('Error extracting user data in AuthCallback:', error);
             // Redirect to home page anyway, but without updating the store
             navigate('/', { replace: true });
           }
         } else {
           // No session found
-          console.log('AuthCallback: No session found');
           setError('Authentication failed. No session found.');
           setIsProcessing(false);
         }
       } catch (error) {
-        console.error('Error in auth callback:', error);
         setError('Authentication failed. Please try again.');
         setIsProcessing(false);
       }
@@ -78,9 +66,9 @@ export function AuthCallback() {
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-flat-gold mx-auto"></div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+            <div className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
               Redirecting...
-            </h2>
+            </div>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               You are successfully authenticated. Redirecting to home page...
             </p>
@@ -96,9 +84,9 @@ export function AuthCallback() {
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-flat-gold mx-auto"></div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+            <div className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
               Completing Authentication
-            </h2>
+            </div>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               Please wait while we complete your Google authentication...
             </p>
@@ -118,9 +106,9 @@ export function AuthCallback() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+            <div className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
               Authentication Failed
-            </h2>
+            </div>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               {error}
             </p>

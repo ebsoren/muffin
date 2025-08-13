@@ -1,4 +1,4 @@
-import type { Member } from "../../../store/slices/types/Member";
+import type { Member } from "../../../types/Member";
 import { getProfileImageUrl } from "../../../utils/supabase";
 
 
@@ -19,9 +19,9 @@ export default function MemberList({ members, onEdit, onDelete }: MemberListProp
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-custom-black dark:text-white mb-4">
+      <div className="text-lg font-semibold text-custom-black dark:text-white mb-4">
         Current Members ({members.length})
-      </h3>
+      </div>
       
       <div className="grid gap-4">
         {members.map((member) => {
@@ -42,9 +42,9 @@ export default function MemberList({ members, onEdit, onDelete }: MemberListProp
                     />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-custom-black dark:text-white">
+                    <div className="text-lg font-semibold text-custom-black dark:text-white">
                       {member.name}
-                    </h4>
+                    </div>
                     <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
                       {member.title && (
                         <span className="text-gray-500 dark:text-gray-400">

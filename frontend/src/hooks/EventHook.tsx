@@ -1,22 +1,23 @@
+// This hook is used to fetch the club events from the backend
 import { useState, useEffect } from 'react';
-import { useAppDispatch } from '../src/store/hooks';
-import { setRecruitingEvents } from '../src/store/slices/recruitingSlice';
-import type { ClubEvent } from '../src/store/slices/types/Event';
+import { useAppDispatch } from '../store/hooks';
+import { setEvents } from '../store/slices/eventSlice';
+import type { ClubEvent } from '../types/Event';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-export const useRecruitingEvents = () => {
+export const useClubEvents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
-  const fetchRecruitingEvents = async () => {
+  const fetchClubEvents = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${API_BASE_URL}/events/recruiting/`);
-
+      const response = await fetch(`${API_BASE_URL}/events/club/`);
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -33,23 +34,22 @@ export const useRecruitingEvents = () => {
         location: event.location,
         event_type: event.event_type
       }));
-      
-      dispatch(setRecruitingEvents(transformedEvents));
+      dispatch(setEvents(transformedEvents));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching recruiting events:', err);
+      console.error('Error fetching club events:', err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRecruitingEvents();
+    fetchClubEvents();
   }, []);
 
   return {
     loading,
     error,
-    refetch: fetchRecruitingEvents
+    refetch: fetchClubEvents
   };
 };

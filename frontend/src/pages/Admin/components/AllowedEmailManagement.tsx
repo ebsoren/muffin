@@ -130,7 +130,7 @@ export default function AllowedEmailManagement() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Allowed Emails</h2>
+        <div className="text-2xl font-bold text-gray-900 dark:text-white">Allowed Emails</div>
       </div>
 
       {error && (
@@ -141,7 +141,7 @@ export default function AllowedEmailManagement() {
 
       {/* Add new email form */}
       <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Add New Email</h3>
+        <div className="text-lg font-medium text-gray-900 dark:text-white mb-4">Add New Email</div>
         <form onSubmit={addAllowedEmail} className="flex gap-4">
           <input
             type="email"
@@ -164,7 +164,7 @@ export default function AllowedEmailManagement() {
       {/* Emails list */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Current Allowed Emails</h3>
+          <div className="text-lg font-medium text-gray-900 dark:text-white">Current Allowed Emails</div>
         </div>
         <div className="divide-y divide-gray-200 dark:divide-gray-700">
           {allowedEmails.length === 0 ? (

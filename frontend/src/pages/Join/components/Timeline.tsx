@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../../store/hooks";
-import { EventBox } from "../../components/EventBox";
+import { EventBox } from "../../../components/EventBox/EventBox";
 
 export default function Timeline() {
   const events = useAppSelector((state) => state.recruiting);
@@ -7,9 +7,9 @@ export default function Timeline() {
   return (
     <div className="relative">
       <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold text-flat-gold mb-8">
+        <div className="text-3xl font-bold text-flat-gold mb-8">
           Recruiting Timeline
-        </h2>
+        </div>
       </div>
       
       {/* Events Timeline */}

@@ -1,6 +1,6 @@
 import Header from "./components/Header";
 import Timeline from "./components/Timeline";
-import { useRecruitingEvents } from "../../../hooks/RecruitingEventHook";
+import { useRecruitingEvents } from "../../hooks/RecruitingEventHook";
 
 export function Join() {
   const { loading, error } = useRecruitingEvents();

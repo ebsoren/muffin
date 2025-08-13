@@ -1,5 +1,5 @@
 import EventsList from './components/EventsList';
-import { useClubEvents } from '../../../hooks/EventHook';
+import { useClubEvents } from '../../hooks/EventHook';
 
 export function Events() {
   const { loading, error } = useClubEvents(); 

@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { ClubEvent } from './types/Event';
+import type { ClubEvent } from '../../types/Event';
 
 const initialState: ClubEvent[] = []
 

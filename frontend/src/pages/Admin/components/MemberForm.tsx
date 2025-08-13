@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { Member } from '../../../store/slices/types/Member';
+import type { Member } from '../../../types/Member';
 import MemberImageUpload from '../../../components/MemberImageUpload/MemberImageUpload';
 
 interface MemberFormProps {
@@ -65,9 +65,9 @@ export default function MemberForm({ member, onSubmit, onCancel }: MemberFormPro
 
   return (
     <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
-      <h3 className="text-xl font-semibold text-custom-black dark:text-white mb-4">
+      <div className="text-xl font-semibold text-custom-black dark:text-white mb-4">
         {member ? 'Edit Member' : 'Add New Member'}
-      </h3>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

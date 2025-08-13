@@ -1,4 +1,4 @@
-import type { Member } from "../../../store/slices/types/Member";
+import type { Member } from "../../../types/Member";
 import { getProfileImageUrl } from "../../../utils/supabase";
 
 interface MemberProps {
@@ -22,9 +22,9 @@ export function MemberBox({ member }: MemberProps) {
       
       {/* Name with LinkedIn Link */}
       <div className="flex items-center justify-center mb-2">
-        <h3 className="text-lg font-semibold text-custom-black dark:text-white mr-2">
+        <div className="text-lg font-semibold text-custom-black dark:text-white mr-2">
           {member.name}
-        </h3>
+        </div>
         <a 
           href={member.linkedIn || ''} 
           target="_blank" 

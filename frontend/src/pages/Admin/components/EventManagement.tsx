@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import EventForm from './EventForm';
 import EventList from './EventList';
-import type { ClubEvent } from '../../../store/slices/types/Event';
+import type { ClubEvent } from '../../../types/Event';
 
 export default function EventManagement() {
   const [events, setEvents] = useState<ClubEvent[]>([]);
@@ -136,7 +136,7 @@ export default function EventManagement() {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Event Management</h2>
+        <div className="text-2xl font-bold text-gray-900 dark:text-white">Event Management</div>
         <button
           onClick={() => setShowForm(true)}
           className="bg-flat-gold hover:bg-flat-gold-hover text-white px-4 py-2 rounded-md"

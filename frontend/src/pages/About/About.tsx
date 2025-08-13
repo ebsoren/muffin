@@ -1,7 +1,7 @@
 import Board from './components/Board'
 import Members from './components/Members';
-import { useBoardMembers } from '../../../hooks/BoardHook';
-import { useMembers } from '../../../hooks/MemberHook';
+import { useBoardMembers } from '../../hooks/BoardHook';
+import { useMembers } from '../../hooks/MemberHook';
 
 export function About() {
   const { loading: boardLoading, error: boardError } = useBoardMembers();

@@ -22,13 +22,6 @@ export const supabaseConfig: SupabaseConfig = {
   eventBucket: EVENT_BUCKET,
 };
 
-// Debug logging
-console.log('Supabase Config:', {
-  url: SUPABASE_URL,
-  mediaBucket: MEDIA_BUCKET,
-  profileBucket: PROFILE_BUCKET,
-  eventBucket: EVENT_BUCKET
-});
 
 /**
  * Generate a Supabase storage URL for an image
@@ -111,7 +104,7 @@ export function getEventImageUrl(
   height: number = 250
 ): string | null {
   // Use fallback bucket name if environment variable is not set
-  const bucket = supabaseConfig.eventBucket || 'event-images';
+  const bucket = supabaseConfig.eventBucket;
   
   const result = getTransformedImageUrl(filename, bucket, { width, height, quality: 85 });
   

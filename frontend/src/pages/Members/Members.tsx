@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 import { ProfileEditor } from '../../components/ProfileEditor/ProfileEditor';
-import { type Member } from '../../store/slices/types/Member';
+import { type Member } from '../../types/Member';
 
 export function Members() {
   const navigate = useNavigate();
@@ -12,20 +12,23 @@ export function Members() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/');
-      return;
-    }
+    // wait a second in case user just reloaded and authentication is not yet set
+    setTimeout(() => {
+      if (!isAuthenticated) {
+        navigate('/');
+        return;
+      }
+    }, 1000);
   }, [isAuthenticated, navigate]);
 
   // Fetch current member data when component loads
   useEffect(() => {
     const fetchMemberData = async () => {
       if (!user?.email) return;
-      
+
       setIsLoading(true);
       setError(null);
-      
+
       try {
         const API_BASE_URL = import.meta.env.VITE_API_URL;
         const response = await fetch(`${API_BASE_URL}/get-member-by-email/`, {
@@ -61,32 +64,15 @@ export function Members() {
     setMemberData(updatedMember);
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Access Denied
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              You must be logged in to access this page.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
+  return ( isAuthenticated && user && 
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="text-3xl font-bold text-gray-900 dark:text-white">
             Members
-          </h1>
+          </div>
           <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Manage your profile and view member information
+            Manage Profile
           </p>
         </div>
 
@@ -105,18 +91,18 @@ export function Members() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Profile Editor */}
           <div>
-            <ProfileEditor 
-              onProfileUpdate={handleProfileUpdate} 
+            <ProfileEditor
+              onProfileUpdate={handleProfileUpdate}
               currentMemberData={memberData}
             />
           </div>
 
           {/* Current Profile Display */}
           <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               Current Profile
-            </h2>
-            
+            </div>
+
             {memberData ? (
               <div className="space-y-4">
                 {memberData.image && (
@@ -128,7 +114,7 @@ export function Members() {
                     />
                   </div>
                 )}
-                
+
                 <div className="space-y-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -138,7 +124,7 @@ export function Members() {
                       {memberData.name || 'Not set'}
                     </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
                       Title
@@ -147,17 +133,17 @@ export function Members() {
                       {memberData.title || 'Not set'}
                     </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
                       LinkedIn
                     </label>
                     <p className="text-lg font-medium text-gray-900 dark:text-white">
                       {memberData.linkedIn ?? 'Not set'
-                  }
+                      }
                     </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
                       Board Member

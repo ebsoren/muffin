@@ -20,13 +20,6 @@ export async function uploadImageToSupabase(file: File, bucket: string, ID: stri
   }
 
   try {
-    console.log('Starting upload via backend:', {
-      filename: file.name,
-      bucket: bucket,
-      fileSize: file.size,
-      fileType: file.type
-    });
-
     // Create FormData for file upload
     const formData = new FormData();
     formData.append('file', file);
@@ -47,7 +40,6 @@ export async function uploadImageToSupabase(file: File, bucket: string, ID: stri
     }
 
     const data = await response.json();
-    console.log('Backend upload successful:', data);
 
     return {
       success: true,
@@ -56,7 +48,6 @@ export async function uploadImageToSupabase(file: File, bucket: string, ID: stri
     };
 
   } catch (error) {
-    console.error('Backend upload failed:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Upload failed'

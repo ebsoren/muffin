@@ -1,7 +1,7 @@
 import Header from "./components/Header";
 import Features from "./components/Features";
 import GroupMe from "./components/GroupMe";
-import { useFeaturedEvents } from "../../../hooks/FeatureEventHook";
+import { useFeaturedEvents } from "../../hooks/FeatureEventHook";
 
 export function Home() {
   const { loading, error } = useFeaturedEvents(); 

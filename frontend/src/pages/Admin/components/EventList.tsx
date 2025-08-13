@@ -1,4 +1,4 @@
-import type { ClubEvent } from "../../../store/slices/types/Event";
+import type { ClubEvent } from "../../../types/Event";
 import { getEventImageUrl } from "../../../utils/supabase";
 
 
@@ -12,16 +12,16 @@ export default function EventList({ events, onEdit, onDelete }: EventListProps) 
   if (events.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-        <p>No events found. Add your first event to get started!</p>
+        <p>No events found</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-custom-black dark:text-white mb-4">
+      <div className="text-lg font-semibold text-custom-black dark:text-white mb-4">
         Current Events ({events.length})
-      </h3>
+      </div>
       
       <div className="grid gap-4">
         {events.map((event) => {
@@ -45,9 +45,9 @@ export default function EventList({ events, onEdit, onDelete }: EventListProps) 
                       </div>
                     )}
                     <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-custom-black dark:text-white">
+                      <div className="text-lg font-semibold text-custom-black dark:text-white">
                         {event.title || 'Untitled Event'}
-                      </h4>
+                      </div>
                       <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
                         {event.date && (
                           <span className="flex items-center">

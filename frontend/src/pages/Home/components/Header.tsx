@@ -1,9 +1,9 @@
 export default function Header() {
   return (
     <div>
-      <h1 className="text-5xl font-bold text-flat-gold m-8">
+      <div className="text-5xl font-bold text-flat-gold m-8">
         Vanderbilt Sports Business Club
-      </h1>
+      </div>
       <p className="text-xl text-custom-black dark:text-white leading-relaxed mx-auto">
         Our mission is to approach the sports industry using innovative data analytics and strategic insights that enhance performance, on and off the field.
       </p>

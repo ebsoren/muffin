@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface User {
-  id: string; // Changed from number to string to handle Supabase UUIDs
+  id: string; 
   email: string;
   first_name: string;
   last_name: string;
@@ -48,7 +48,6 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.error = null;
-      // Don't store Supabase token in localStorage as 'token' to avoid conflicts
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.isLoading = false;

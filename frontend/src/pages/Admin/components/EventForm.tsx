@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { ClubEvent } from '../../../store/slices/types/Event';
+import type { ClubEvent } from '../../../types/Event';
 import EventImageUpload from '../../../components/EventImageUpload/EventImageUpload';
 
 interface EventFormProps {
@@ -74,9 +74,9 @@ export default function EventForm({ event, onSubmit, onCancel }: EventFormProps)
 
   return (
     <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
-      <h3 className="text-xl font-semibold text-custom-black dark:text-white mb-4">
+      <div className="text-xl font-semibold text-custom-black dark:text-white mb-4">
         {event ? 'Edit Event' : 'Add New Event'}
-      </h3>
+      </div>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

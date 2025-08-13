@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Member } from './types/Member';
+import type { Member } from '../../types/Member';
 
 
 const initialState: Member[] = []
@@ -11,7 +11,6 @@ export const boardSlice = createSlice({
     setBoard: (state, action: PayloadAction<Member[]>) => {
         state = action.payload
         return state
-
     },
   },
 });

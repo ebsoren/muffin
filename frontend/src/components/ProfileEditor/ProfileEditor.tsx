@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector } from '../../store/hooks';
-import { type Member } from '../../store/slices/types/Member';
+import { type Member } from '../../types/Member';
 
 interface ProfileEditorProps {
   onProfileUpdate?: (memberData: Member) => void;
@@ -134,9 +134,9 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      <div className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
         Edit Profile
-      </h2>
+      </div>
       
       {error && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">
