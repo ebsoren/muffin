@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector } from '../../store/hooks';
-import { type Member } from '../../types/Member';
+import { type Member } from '../../api/types';
+import DelayedLoadingSpinner from '../DelayedLoadingSpinner';
+import { supabase } from '../../utils/supabaseClient';
+import { resizeImageToFitSize } from '../../api/supabaseApi';
 
 interface ProfileEditorProps {
   onProfileUpdate?: (memberData: Member) => void;
@@ -24,7 +27,6 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
   // Update form data when currentMemberData changes
   useEffect(() => {
     if (currentMemberData) {
-      console.log(currentMemberData)
       setFormData({
         name: currentMemberData.name || '',
         linkedIn: currentMemberData.linkedIn || '',
@@ -51,17 +53,27 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        setError('Please select a valid image file');
+      // Validate file type - only allow PNG, JPEG, and JPG
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      if (!allowedTypes.includes(file.type)) {
+        setError('Please select a valid image file (PNG, JPEG, or JPG only)');
         return;
       }
       
-      // Validate file size (5MB limit)
-      if (file.size > 5 * 1024 * 1024) {
-        setError('Image file size must be less than 5MB');
+      // Validate file size (100KB limit) and resize if needed
+      if (file.size > 100 * 1024) {
+        console.log(`Resizing image ${file.name} to 100KB`);
+        resizeImageToFitSize(file, 100 * 1024).then(resizedFile => {
+          setSelectedImage(resizedFile);
+          const url = URL.createObjectURL(resizedFile);
+          setPreviewUrl(url);
+          setError(null);
+        }).catch(error => {
+          setError(`Failed to resize image: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        });
         return;
       }
+      
       setSelectedImage(file);
       setError(null);
       
@@ -73,37 +85,111 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user?.table_id) {
+      setError('User table ID not found. Please try logging in again.');
+      return;
+    }
+    
     setIsLoading(true);
     setError(null);
     setSuccess(null);
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('email', user?.email || '');
-      formDataToSend.append('name', formData.name.trim());
-      formDataToSend.append('linkedIn', formData.linkedIn.trim());
-      formDataToSend.append('title', formData.title.trim());
-      
+      const BUCKET = 'profile-pics'
+      const folder = user?.id
+      // Handle image upload first if there's a selected image
+      let imageUrl = null;
       if (selectedImage) {
-        formDataToSend.append('image', selectedImage);
+        await supabase.functions.invoke('create-profile-folder', { method: 'POST' });
+
+        // 1) Delete everything currently in the user's folder
+        async function deleteAllInFolder(prefix: string) {
+          const pageSize = 100;
+          let offset = 0;
+        
+          while (true) {
+            const { data: entries, error: listErr } = await supabase
+              .storage
+              .from(BUCKET)
+              .list(prefix, { limit: pageSize, offset });
+        
+            if (listErr) throw listErr;
+            if (!entries || entries.length === 0) break;
+        
+            // Build full paths to delete (root-level within this folder)
+            const paths = entries.map(e => `${prefix}/${e.name}`);
+        
+            const { error: rmErr } = await supabase.storage.from(BUCKET).remove(paths);
+            if (rmErr) throw rmErr;
+        
+            if (entries.length < pageSize) break;
+            offset += pageSize;
+          }
+        }
+        
+        // delete everything (including any `.keep` file)
+        await deleteAllInFolder(folder);
+        
+        // 2) Upload the new image
+        const objectName = `${Date.now()}_${selectedImage.name}`;
+        const objectPath = `${folder}/${objectName}`;
+        
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from(BUCKET)
+          .upload(objectPath, selectedImage, {
+            cacheControl: '3600',
+            upsert: false
+          });
+        
+        console.log('uploadData', uploadData);
+        console.log('uploadError', uploadError);
+        if (uploadError) {
+          throw new Error(`Image upload failed: ${uploadError.message}`);
+        }
+        
+        imageUrl = uploadData.path; // Store the path, not the full URL
       }
 
-      const API_BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await fetch(`${API_BASE_URL}/profile-update/`, {
-        method: 'POST',
-        body: formDataToSend,
+      console.log('Updating member with table_id:', user?.table_id);
+      console.log('Update data:', {
+        name: formData.name.trim(),
+        linkedin: formData.linkedIn.trim() || null,
+        title: formData.title.trim() || null,
+        image: imageUrl || currentMemberData?.image || null
       });
+      
+      // Update the member record in the database
+      const { data: updateData, error: updateError } = await supabase
+        .from('members')
+        .update({
+          name: formData.name.trim(),
+          linkedin: formData.linkedIn.trim() || null,
+          title: formData.title.trim() || null,
+          image: imageUrl || currentMemberData?.image || null
+        })
+        .eq('id', user?.table_id)
+        .select()
+        .limit(1);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Profile update failed');
+      if (updateError) {
+        throw new Error(`Profile update failed: ${updateError.message}`);
       }
 
-      const data = await response.json();
       setSuccess('Profile updated successfully!');
+      console.log('updateData', updateData);
       
-      if (onProfileUpdate && data.member) {
-        onProfileUpdate(data.member);
+      // Call the callback with updated member data
+      if (onProfileUpdate && updateData) {
+        const updatedMember: Member = {
+          id: updateData[0].id,
+          name: updateData[0].name,
+          linkedIn: updateData[0].linkedin,
+          title: updateData[0].title,
+          board: updateData[0].board,
+          image: updateData[0].image
+        };
+        onProfileUpdate(updatedMember);
       }
       
       // Clear form
@@ -114,7 +200,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
       }
       
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Profile update failed');
+      setError(err instanceof Error ? `${err.message} HELLO` : 'Profile update failed');
     } finally {
       setIsLoading(false);
     }
@@ -133,8 +219,8 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-      <div className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+    <div className="bg-white dark:bg-custom-black shadow rounded-lg p-6">
+      <div className="text-2xl font-bold text-custom-black dark:text-white mb-6">
         Edit Profile
       </div>
       
@@ -153,8 +239,8 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name Field */}
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Full Name *
+          <label htmlFor="name" className="block text-sm font-medium text-custom-black dark:text-white mb-2">
+            Full Name
           </label>
           <input
             type="text"
@@ -163,14 +249,14 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
             value={formData.name}
             onChange={handleInputChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 text-custom-gray dark:text-white"
             placeholder="Enter your full name"
           />
         </div>
 
         {/* LinkedIn Field */}
         <div>
-          <label htmlFor="linkedIn" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="linkedIn" className="block text-sm font-medium text-custom-black dark:text-white mb-2">
             LinkedIn Profile
           </label>
           <input
@@ -179,14 +265,14 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
             name="linkedIn"
             value={formData.linkedIn}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 text-custom-gray dark:text-white"
             placeholder="https://linkedin.com/in/yourprofile"
           />
         </div>
 
         {/* Title Field */}
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="title" className="block text-sm font-medium text-custom-black dark:text-white mb-2">
             Title/Position (Optional)
           </label>
           <input
@@ -195,14 +281,14 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
             name="title"
             value={formData.title}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 dark:text-white"
-            placeholder="e.g., Software Engineer, Student, etc."
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 text-custom-gray dark:text-white"
+            placeholder="e.g., President, Manager, Data Analyst, etc."
           />
         </div>
 
         {/* Profile Picture Upload */}
         <div>
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="image" className="block text-sm font-medium text-custom-black dark:text-white mb-2">
             Profile Picture
           </label>
           <div className="space-y-3">
@@ -210,12 +296,12 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
               ref={fileInputRef}
               type="file"
               id="image"
-              accept="image/*"
+              accept="image/png,image/jpeg,image/jpg"
               onChange={handleImageSelect}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-flat-gold file:text-white hover:file:bg-flat-gold-hover"
             />
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Upload a profile picture (JPG, PNG, GIF). Max size: 5MB.
+              Upload a profile picture (PNG, JPEG, JPG only). Max size: 100KB.
             </p>
             
             {previewUrl && (
@@ -244,7 +330,14 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
             disabled={isLoading}
             className="px-6 py-2 bg-flat-gold text-white font-medium rounded-md hover:bg-flat-gold-hover focus:outline-none focus:ring-2 focus:ring-flat-gold focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Updating...' : 'Update Profile'}
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <DelayedLoadingSpinner size="sm" isLoading={isLoading} />
+                <span className="ml-2">Updating...</span>
+              </div>
+            ) : (
+              'Update Profile'
+            )}
           </button>
         </div>
       </form>

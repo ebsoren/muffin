@@ -4,20 +4,31 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { toggleTheme } from '../../store/slices/statusSlice';
 import { logout, clearError } from '../../store/slices/authSlice';
 import { LoginModal } from '../Auth/LoginModal';
-import { RegisterModal } from '../Auth/RegisterModal';
+import { supabase } from '../../utils/supabaseClient';
+import DelayedLoadingSpinner from '../DelayedLoadingSpinner';
 
 export function NavBar() {
   const dispatch = useAppDispatch();
   const theme = useAppSelector(state => state.status.theme);
   const { user, isAuthenticated, isLoading, error } = useAppSelector(state => state.auth);
+  const isMember = user?.isMember;
   const location = useLocation();
   
+
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  const handleLogout = () => {
+
+
+  const handleLogout = async () => {
+    // Sign out from Supabase first
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error('Error signing out from Supabase:', error);
+    }
+    
     dispatch(logout());
     setShowUserMenu(false);
   };
@@ -40,17 +51,6 @@ export function NavBar() {
   }, [showUserMenu]);
 
   const handleLoginClick = () => {
-    setShowLoginModal(true);
-    setShowRegisterModal(false);
-  };
-
-  const handleSwitchToRegister = () => {
-    setShowLoginModal(false);
-    setShowRegisterModal(true);
-  };
-
-  const handleSwitchToLogin = () => {
-    setShowRegisterModal(false);
     setShowLoginModal(true);
   };
 
@@ -92,6 +92,7 @@ export function NavBar() {
             >
               Join
             </Link>
+            {isAuthenticated && !isLoading && isMember &&(
             <Link 
               to="/members" 
               className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
@@ -100,6 +101,7 @@ export function NavBar() {
             >
               Members
             </Link>
+            )}
             {isAuthenticated && !isLoading && user?.is_admin && (
               <Link 
                 to="/admin" 
@@ -146,8 +148,7 @@ export function NavBar() {
               </div>
             ) : isLoading ? (
               <div className="flex items-center gap-2 px-3 py-2">
-                <div className="w-4 h-4 border-2 border-flat-gold border-t-transparent rounded-full animate-spin"></div>
-                <span className="text-flat-gold text-sm">Loading...</span>
+                <DelayedLoadingSpinner size="sm" isLoading={isLoading} />
               </div>
             ) : isAuthenticated ? (
               <div className="relative">
@@ -155,19 +156,27 @@ export function NavBar() {
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center gap-2 p-2"
                 >
-                  {user?.profile_picture ? (
-                    <img
-                      src={user.profile_picture}
-                      alt={user.first_name}
-                      className="w-6 h-6 rounded-full"
-                    />
-                  ) : (
-                    <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center">
-                      <span className="text-flat-gold font-bold text-sm">
-                        {user?.first_name?.[0] || user?.email?.[0] || 'U'}
-                      </span>
-                    </div>
-                  )}
+                  <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center relative">
+                    {user?.profile_picture && user.profile_picture.trim() !== '' && (
+                      <img
+                        src={user.profile_picture}
+                        alt={user.first_name}
+                        className="w-6 h-6 rounded-full absolute inset-0"
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          console.error('Profile picture failed to load:', user.profile_picture);
+                          // Hide the broken image, initials will show through
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                        onLoad={() => {
+                          console.log('Profile picture loaded successfully:', user.profile_picture);
+                        }}
+                      />
+                    )}
+                    <span className="text-flat-gold font-bold text-sm">
+                      {user?.first_name?.[0] || user?.email?.[0] || 'U'}
+                    </span>
+                  </div>
                   <span className="text-black dark:text-white font-medium">
                     {user?.first_name || user?.email}
                   </span>
@@ -197,7 +206,7 @@ export function NavBar() {
                   onClick={handleLoginClick}
                   className="px-2 py-2 text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors"
                 >
-                  Member Login
+                  Login
                 </button>
               </div>
             )}
@@ -209,12 +218,6 @@ export function NavBar() {
       <LoginModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
-        onSwitchToRegister={handleSwitchToRegister}
-      />
-      <RegisterModal
-        isOpen={showRegisterModal}
-        onClose={() => setShowRegisterModal(false)}
-        onSwitchToLogin={handleSwitchToLogin}
       />
     </>
   );

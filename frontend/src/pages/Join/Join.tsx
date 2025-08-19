@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Timeline from "./components/Timeline";
 import { useRecruitingEvents } from "../../hooks/RecruitingEventHook";
+import DelayedLoadingSpinner from "../../components/DelayedLoadingSpinner";
 
 export function Join() {
   const { loading, error } = useRecruitingEvents();
@@ -14,9 +15,7 @@ export function Join() {
   }
   if(loading) {
     return (
-      <div>
-        <p>Loading...</p>
-      </div>
+      <DelayedLoadingSpinner isLoading={loading} size="lg" className="h-32" />
     )
   }
 

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import type { ClubEvent } from '../../../types/Event';
+import type { Event } from '../../../api/types';
 import EventImageUpload from '../../../components/EventImageUpload/EventImageUpload';
 
 interface EventFormProps {
-  event: ClubEvent | null;
-  onSubmit: (eventData: Omit<ClubEvent, 'id'> | ClubEvent) => void;
+  event: Event | null;
+  onSubmit: (eventData: Omit<Event, 'id'> | Event) => void;
   onCancel: () => void;
 }
 
@@ -51,9 +51,9 @@ export default function EventForm({ event, onSubmit, onCancel }: EventFormProps)
     };
 
     if (event) {
-      onSubmit({ ...eventData, id: event.id } as ClubEvent);
+      onSubmit({ ...eventData, id: event.id } as Event);
     } else {
-      onSubmit(eventData as Omit<ClubEvent, 'id'>);
+      onSubmit(eventData as Omit<Event, 'id'>);
     }
   };
 
@@ -163,7 +163,7 @@ export default function EventForm({ event, onSubmit, onCancel }: EventFormProps)
         <EventImageUpload
           onImageUploaded={handleImageUploaded}
           currentImage={formData.image}
-          ID={event?.id || null}
+          eventId={event?.id || null}
         />
 
         <div className="flex justify-end space-x-3 pt-4">

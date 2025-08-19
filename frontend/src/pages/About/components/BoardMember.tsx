@@ -1,4 +1,4 @@
-import type { Member } from "../../../types/Member";
+import type { Member } from "../../../api/types";
 import { getProfileImageUrl } from "../../../utils/supabase";
 
 interface BoardMemberProps {

@@ -1,13 +1,13 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { ClubEvent } from '../../types/Event';
+import type { Event } from '../../api/types';
 
-const initialState: ClubEvent[] = []
+const initialState: Event[] = []
 
 export const eventSlice = createSlice({
   name: 'events',
   initialState,
   reducers: {
-    setEvents: (_, action: PayloadAction<ClubEvent[]>) => {
+    setEvents: (_, action: PayloadAction<Event[]>) => {
         return action.payload
     },
   },

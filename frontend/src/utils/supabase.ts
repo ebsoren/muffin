@@ -1,10 +1,8 @@
 // Supabase configuration and utilities for image handling
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const MEDIA_BUCKET = import.meta.env.VITE_SUPABASE_MEDIA_BUCKET
-const PROFILE_BUCKET = import.meta.env.VITE_SUPABASE_PROFILE_BUCKET
-const EVENT_BUCKET = import.meta.env.VITE_SUPABASE_EVENT_BUCKET
+import { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_EVENT_BUCKET, SUPABASE_MEDIA_BUCKET, SUPABASE_PROFILE_BUCKET } from "./constants";
+
+
 
 export interface SupabaseConfig {
   url: string;
@@ -17,9 +15,9 @@ export interface SupabaseConfig {
 export const supabaseConfig: SupabaseConfig = {
   url: SUPABASE_URL || '',
   anonKey: SUPABASE_ANON_KEY || '',
-  mediaBucket: MEDIA_BUCKET,
-  profileBucket: PROFILE_BUCKET,
-  eventBucket: EVENT_BUCKET,
+  mediaBucket: SUPABASE_MEDIA_BUCKET,
+  profileBucket: SUPABASE_PROFILE_BUCKET,
+  eventBucket: SUPABASE_EVENT_BUCKET,
 };
 
 

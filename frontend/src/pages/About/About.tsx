@@ -1,7 +1,8 @@
 import Board from './components/Board'
-import Members from './components/Members';
+
 import { useBoardMembers } from '../../hooks/BoardHook';
 import { useMembers } from '../../hooks/MemberHook';
+import DelayedLoadingSpinner from '../../components/DelayedLoadingSpinner';
 
 export function About() {
   const { loading: boardLoading, error: boardError } = useBoardMembers();
@@ -15,16 +16,15 @@ export function About() {
   }
   if(boardLoading || membersLoading) {
     return (
-      <div>
-        <p>Loading...</p>
-      </div>
+      <DelayedLoadingSpinner isLoading={boardLoading || membersLoading} size="lg" className="h-32" />
     )
   }
 
   return (
     <div className="min-h-screen w-full mx-20 bg-white dark:bg-custom-black duration-200">
       <Board/>
-      <Members/>
+      {/* <Members/> */}
+      
     </div>
   );
 } 

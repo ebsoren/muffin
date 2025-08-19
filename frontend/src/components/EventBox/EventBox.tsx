@@ -1,8 +1,8 @@
-import type { ClubEvent } from "../../types/Event";
+import type { Event } from "../../api/types";
 import { getEventImageUrl } from "../../utils/supabase";
 
 interface EventBoxProps {
-  event: ClubEvent;
+  event: Event;
   size: string;
 }
 

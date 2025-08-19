@@ -3,14 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 import EventManagement from './components/EventManagement';
 import MemberManagement from './components/MemberManagement';
-import AllowedEmailManagement from './components/AllowedEmailManagement';
 
 export function Admin() {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAppSelector(state => state.auth);
 
   useEffect(() => {
-    setTimeout(() => {
+    if (isAuthenticated === undefined || user === undefined || user?.is_admin === undefined) {
+      navigate('/');
+      return;
+    }
+
     if (!isAuthenticated) {
       navigate('/');
       return;
@@ -20,7 +23,6 @@ export function Admin() {
       navigate('/');
       return;
     }
-  }, 1000);
   }, [isAuthenticated, user, navigate]);
 
   return ( isAuthenticated && user?.is_admin &&
@@ -40,10 +42,6 @@ export function Admin() {
         </div>
         <div className="mt-8">
         <MemberManagement />
-        </div>
-
-        <div className="mt-8">
-          <AllowedEmailManagement />
         </div>
       </div>
     </div>

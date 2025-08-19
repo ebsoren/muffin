@@ -1,5 +1,6 @@
 import EventsList from './components/EventsList';
 import { useClubEvents } from '../../hooks/EventHook';
+import DelayedLoadingSpinner from '../../components/DelayedLoadingSpinner';
 
 export function Events() {
   const { loading, error } = useClubEvents(); 
@@ -13,8 +14,6 @@ export function Events() {
   return !loading ? (
     <EventsList/>
   ) : (
-    <div>
-      <p>Loading...</p>
-    </div>
+    <DelayedLoadingSpinner isLoading={loading} size="lg" className="h-32" />
   );
 } 

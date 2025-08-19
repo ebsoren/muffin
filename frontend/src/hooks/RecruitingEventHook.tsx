@@ -2,9 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from '../store/hooks';
 import { setRecruitingEvents } from '../store/slices/recruitingSlice';
-import type { ClubEvent } from '../types/Event';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import type { Event } from '../api/types';
+import { getRecruitingEvents } from '../api';
 
 export const useRecruitingEvents = () => {
   const [loading, setLoading] = useState(true);
@@ -16,17 +15,11 @@ export const useRecruitingEvents = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${API_BASE_URL}/events/recruiting/`);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const data = await getRecruitingEvents();
       
-      const data = await response.json();
-      
-      // Transform the data to match the frontend ClubEvent interface
-      const transformedEvents: ClubEvent[] = data.map((event: any) => ({
-        id: event.id,
+      // Transform the data to match the frontend Event interface
+      const transformedEvents: Event[] = data.map((event) => ({
+        id: event.id || 0,
         title: event.title,
         image: event.image,
         description: event.description,

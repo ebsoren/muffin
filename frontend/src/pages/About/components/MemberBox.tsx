@@ -1,4 +1,4 @@
-import type { Member } from "../../../types/Member";
+import type { Member } from "../../../api/types";
 import { getProfileImageUrl } from "../../../utils/supabase";
 
 interface MemberProps {
@@ -6,9 +6,7 @@ interface MemberProps {
 }
 
 export function MemberBox({ member }: MemberProps) {
-  console.log(member.image)
   const imageUrl = getProfileImageUrl(member.image);
-  console.log(imageUrl)
   return (
     <div className="flex flex-col items-center text-center">
       {/* Circular Image */}

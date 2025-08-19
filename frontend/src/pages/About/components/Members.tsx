@@ -3,7 +3,6 @@ import { MemberBox } from './MemberBox';
 
 export default function Members() {
   const members = useAppSelector(state => state.members);
-  console.log(members);
   return (
     <div className="w-full bg-white dark:bg-custom-black duration-200 mb-8 py-8">
       <div className="text-2xl font-bold text-flat-gold dark:text-white m-8 text-center">

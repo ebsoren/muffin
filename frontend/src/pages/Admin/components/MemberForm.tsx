@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import type { Member } from '../../../types/Member';
+import type { Member } from '../../../api/types';
 import MemberImageUpload from '../../../components/MemberImageUpload/MemberImageUpload';
 
 interface MemberFormProps {
   member: Member | null;
-  onSubmit: (memberData: Omit<Member, 'id'> | Member) => void;
+  onSubmit: (memberData: Member) => void;
   onCancel: () => void;
 }
 
 export default function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
   const [formData, setFormData] = useState({
+    id: '',
     name: '',
     title: '',
     linkedIn: '',
@@ -20,6 +21,7 @@ export default function MemberForm({ member, onSubmit, onCancel }: MemberFormPro
   useEffect(() => {
     if (member) {
       setFormData({
+        id: member.id,
         name: member.name || '',
         title: member.title || '',
         linkedIn: member.linkedIn || '',
@@ -40,9 +42,9 @@ export default function MemberForm({ member, onSubmit, onCancel }: MemberFormPro
     };
 
     if (member) {
-      onSubmit({ ...memberData, id: member.id } as Member);
+      onSubmit(memberData as Member);
     } else {
-      onSubmit(memberData as Omit<Member, 'id'>);
+      onSubmit(memberData as Member);
     }
   };
 
@@ -117,16 +119,12 @@ export default function MemberForm({ member, onSubmit, onCancel }: MemberFormPro
         </div>
 
         {/* Image Upload Component */}
-        {member?.id ? (
-          <MemberImageUpload
-            onImageUploaded={handleImageUploaded}
-            ID={member?.id || null}
-          />
-        ) : (
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            Image upload will be available after creating the member.
-          </div>
-        )}
+        <MemberImageUpload
+          onImageUploaded={handleImageUploaded}
+          currentImage={formData.image}
+          memberId={member?.id?.toString() || 'new-member'}
+        />
+        
 
         <div className="flex items-center">
           <input

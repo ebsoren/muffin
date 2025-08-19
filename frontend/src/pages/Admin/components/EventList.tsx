@@ -1,10 +1,10 @@
-import type { ClubEvent } from "../../../types/Event";
+import type { Event } from "../../../api/types";
 import { getEventImageUrl } from "../../../utils/supabase";
 
 
 interface EventListProps {
-  events: ClubEvent[];
-  onEdit: (event: ClubEvent) => void;
+  events: Event[];
+  onEdit: (event: Event) => void;
   onDelete: (eventId: number) => void;
 }
 
@@ -32,7 +32,7 @@ export default function EventList({ events, onEdit, onDelete }: EventListProps) 
               key={event.id}
               className="bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-4 shadow-sm"
             >
-              <div className="flex items-start justify-between">
+              <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
                     {imageUrl && (
@@ -45,8 +45,13 @@ export default function EventList({ events, onEdit, onDelete }: EventListProps) 
                       </div>
                     )}
                     <div className="flex-1">
-                      <div className="text-lg font-semibold text-custom-black dark:text-white">
-                        {event.title || 'Untitled Event'}
+                      <div className="flex items-center gap-4 mb-2">
+                        <div className="text-lg font-semibold text-custom-black dark:text-white">
+                          {event.title || 'Untitled Event'}
+                        </div>
+                        <span className="bg-flat-gold text-white px-2 py-1 rounded text-xs">
+                          {event.event_type}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
                         {event.date && (
@@ -65,9 +70,6 @@ export default function EventList({ events, onEdit, onDelete }: EventListProps) 
                             {event.location}
                           </span>
                         )}
-                        <span className="bg-flat-gold text-white px-2 py-1 rounded text-xs">
-                          {event.event_type}
-                        </span>
                       </div>
                     </div>
                   </div>

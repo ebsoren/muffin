@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { supabaseAuthSuccess } from '../../store/slices/authSlice';
 import { supabase } from '../../utils/supabaseClient';
-import { extractUserDataFromSession } from '../../main';
 
 export function AuthCallback() {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { user, isAuthenticated } = useAppSelector(state => state.auth);
   const [isProcessing, setIsProcessing] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasProcessed, setHasProcessed] = useState(false);
 
   useEffect(() => {
     const handleAuthCallback = async () => {
+      // Prevent multiple executions
+      if (hasProcessed) {
+        return;
+      }
       
       try {
         // If user is already authenticated by the global listener, redirect immediately
         if (isAuthenticated && user) {
-          navigate('/', { replace: true });
+          setHasProcessed(true);
+          window.location.href = '/';
           return;
         }
 
@@ -32,50 +35,40 @@ export function AuthCallback() {
         }
 
         if (session) {
+          const userData = {
+            id: session.user.id || '',
+            table_id: '',
+            email: session.user.email || '',
+            first_name: session.user.user_metadata?.given_name || session.user.user_metadata?.first_name || 'User',
+            last_name: session.user.user_metadata?.family_name || session.user.user_metadata?.last_name || '',
+            profile_picture: session.user.user_metadata?.picture || session.user.user_metadata?.avatar_url || '',
+            email_verified: session.user.email_confirmed_at ? true : false,
+            is_admin: false,
+            isMember: false, // Will be updated by the global auth listener
+          };
           
-          try {
-            const userData = await extractUserDataFromSession(session);
-
-            // Dispatch auth success
-            dispatch(supabaseAuthSuccess({ user: userData, token: session.access_token }));
-            
-            // Redirect to home page or dashboard
-            navigate('/', { replace: true });
-          } catch (error) {
-            // Redirect to home page anyway, but without updating the store
-            navigate('/', { replace: true });
-          }
+          dispatch(supabaseAuthSuccess({ user: userData, token: session.access_token }));
+          setHasProcessed(true);
+          window.location.href = '/';
         } else {
-          // No session found
-          setError('Authentication failed. No session found.');
+          setHasProcessed(true);
+          setError('Authentication failed.');
           setIsProcessing(false);
         }
       } catch (error) {
+        setHasProcessed(true);
         setError('Authentication failed. Please try again.');
         setIsProcessing(false);
       }
     };
 
     handleAuthCallback();
-  }, [dispatch, navigate, isAuthenticated, user]);
+  }, [dispatch, isAuthenticated, user]);
 
-  // If user is already authenticated, show loading briefly then redirect
+  // If user is already authenticated, redirect immediately
   if (isAuthenticated && user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-md w-full space-y-8">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-flat-gold mx-auto"></div>
-            <div className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
-              Redirecting...
-            </div>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              You are successfully authenticated. Redirecting to home page...
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    window.location.href = '/';
+    return null;
   }
 
   if (isProcessing) {
@@ -98,7 +91,7 @@ export function AuthCallback() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 w-1/2">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900">
@@ -114,7 +107,7 @@ export function AuthCallback() {
             </p>
             <div className="mt-6">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => window.location.href = '/'}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-flat-gold hover:bg-flat-gold-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-flat-gold"
               >
                 Return to Home

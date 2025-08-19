@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 import { ProfileEditor } from '../../components/ProfileEditor/ProfileEditor';
-import { type Member } from '../../types/Member';
+import { type Member } from '../../api/types';
+import DelayedLoadingSpinner from '../../components/DelayedLoadingSpinner';
+import { getMember } from '../../api';
+import { SUPABASE_URL } from '../../utils/constants';
 
 export function Members() {
   const navigate = useNavigate();
@@ -10,16 +13,13 @@ export function Members() {
   const [memberData, setMemberData] = useState<Member | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
-    // wait a second in case user just reloaded and authentication is not yet set
-    setTimeout(() => {
-      if (!isAuthenticated) {
-        navigate('/');
-        return;
-      }
-    }, 1000);
-  }, [isAuthenticated, navigate]);
+    if (!isAuthenticated || isAuthenticated === undefined || user === undefined || user?.is_admin === undefined || user?.isMember === undefined || user?.isMember === false) {
+      navigate('/');
+      return;
+    }
+
+  }, [isAuthenticated, navigate, user]);
 
   // Fetch current member data when component loads
   useEffect(() => {
@@ -30,26 +30,13 @@ export function Members() {
       setError(null);
 
       try {
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${API_BASE_URL}/get-member-by-email/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: user.email }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to fetch member data');
+        const data = await getMember(user.email, user.table_id);
+        if (data) {
+          setMemberData(data);
         }
-
-        const data = await response.json();
-        if (data.success) {
-          setMemberData(data.member);
-        }
+        
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch member data');
+        setError(err instanceof Error ? `Error: ${err.message}` : 'Failed to fetch member data');
       } finally {
         setIsLoading(false);
       }
@@ -63,22 +50,18 @@ export function Members() {
   const handleProfileUpdate = (updatedMember: Member) => {
     setMemberData(updatedMember);
   };
-
-  return ( isAuthenticated && user && 
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+  return (isAuthenticated && user &&
+    <div className="min-h-screen bg-gray-50 dark:bg-custom-gray py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <div className="text-3xl font-bold text-gray-900 dark:text-white">
-            Members
-          </div>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
             Manage Profile
-          </p>
+          </div>
         </div>
 
         {isLoading && (
           <div className="text-center py-8">
-            <div className="text-gray-600 dark:text-gray-400">Loading profile data...</div>
+            <DelayedLoadingSpinner isLoading={isLoading} size="md" />
           </div>
         )}
 
@@ -98,7 +81,7 @@ export function Members() {
           </div>
 
           {/* Current Profile Display */}
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <div className="bg-white dark:bg-custom-black shadow rounded-lg p-6">
             <div className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               Current Profile
             </div>
@@ -108,7 +91,7 @@ export function Members() {
                 {memberData.image && (
                   <div className="flex justify-center">
                     <img
-                      src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/profile-pics/${memberData.image}`}
+                      src={`${SUPABASE_URL}/storage/v1/object/public/profile-pics/${memberData.image}`}
                       alt="Profile"
                       className="w-32 h-32 object-cover rounded-full border-4 border-flat-gold"
                     />

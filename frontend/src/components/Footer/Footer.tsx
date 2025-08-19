@@ -18,7 +18,6 @@ export default function Footer() {
           <div className="text-xl font-semibold mb-4 whitespace-nowrap">Contact Us</div>
             <div className="space-y-2">
               <p className="whitespace-nowrap">vsbc@vanderbilt.edu</p>
-              <p className="whitespace-nowrap">Nashville, TN 37235</p>
             </div>
           </div>
 

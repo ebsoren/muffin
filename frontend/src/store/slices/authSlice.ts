@@ -2,12 +2,14 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface User {
   id: string; 
+  table_id: string;
   email: string;
   first_name: string;
   last_name: string;
   profile_picture?: string;
   email_verified: boolean;
   is_admin: boolean;
+  isMember: boolean;
 }
 
 export interface AuthState {
@@ -48,6 +50,8 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.error = null;
+      // Clear the logout flag when user successfully authenticates
+      localStorage.removeItem('user_logged_out');
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
@@ -63,6 +67,8 @@ const authSlice = createSlice({
       state.error = null;
       localStorage.removeItem('token');
       localStorage.removeItem('supabase_session');
+      // Set a flag to indicate user has logged out
+      localStorage.setItem('user_logged_out', 'true');
     },
     supabaseLogout: (state) => {
       state.user = null;
@@ -70,6 +76,8 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.error = null;
       localStorage.removeItem('supabase_session');
+      // Set a flag to indicate user has logged out
+      localStorage.setItem('user_logged_out', 'true');
     },
     clearError: (state) => {
       state.error = null;

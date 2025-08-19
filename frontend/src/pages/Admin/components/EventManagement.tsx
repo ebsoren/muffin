@@ -1,35 +1,25 @@
 import { useState, useEffect } from 'react';
-import { useAppSelector } from '../../../store/hooks';
 import EventForm from './EventForm';
 import EventList from './EventList';
-import type { ClubEvent } from '../../../types/Event';
+import type { Event } from '../../../api/types';
+import DelayedLoadingSpinner from '../../../components/DelayedLoadingSpinner';
+import { getEvents, createEvent, updateEvent, deleteEvent } from '../../../api';
 
 export default function EventManagement() {
-  const [events, setEvents] = useState<ClubEvent[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<ClubEvent | null>(null);
-  const { djangoToken } = useAppSelector((state: any) => state.auth);
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
 
   useEffect(() => {
     fetchEvents();
-  }, [djangoToken]);
+  }, []);
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/events/`, {
-        headers: {
-          'Authorization': `Token ${djangoToken}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setEvents(data);
-      } else {
-        setError('Failed to fetch events');
-      }
+      const data = await getEvents();
+      setEvents(data);
     } catch (error) {
       setError('Error fetching events');
     } finally {
@@ -37,85 +27,43 @@ export default function EventManagement() {
     }
   };
 
-  const addEvent = async (eventData: Omit<ClubEvent, 'id'> | ClubEvent) => {
+  const addEvent = async (eventData: Omit<Event, 'id'> | Event) => {
     try {
-      console.log('Submitting event data:', eventData);
-      
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/events/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${djangoToken}`,
-        },
-        body: JSON.stringify(eventData),
-      });
-
-      if (response.ok) {
-        const newEvent = await response.json();
-        setEvents([...events, newEvent]);
-        setShowForm(false);
-        setEditingEvent(null);
-      } else {
-        const errorData = await response.json();
-        console.error('Event creation failed:', errorData);
-        setError(`Failed to add event: ${errorData.error || errorData.detail || 'Unknown error'}`);
-      }
+      const newEvent = await createEvent(eventData as any);
+      setEvents([...events, newEvent]);
+      setShowForm(false);
+      setEditingEvent(null);
     } catch (error) {
       console.error('Error adding event:', error);
       setError('Error adding event');
     }
   };
 
-  const editEvent = async (eventId: number, eventData: Omit<ClubEvent, 'id'> | ClubEvent) => {
+  const editEvent = async (eventId: number, eventData: Omit<Event, 'id'> | Event) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/events/${eventId}/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${djangoToken}`,
-        },
-        body: JSON.stringify(eventData),
-      });
-
-      if (response.ok) {
-        const updatedEvent = await response.json();
-        setEvents(events.map(event => event.id === eventId ? updatedEvent : event));
-        setShowForm(false);
-        setEditingEvent(null);
-      } else {
-        const errorData = await response.json();
-        setError(`Failed to update event: ${errorData.error || 'Unknown error'}`);
-      }
+      const updatedEvent = await updateEvent(eventId, eventData as any);
+      setEvents(events.map(event => event.id === eventId ? updatedEvent : event));
+      setShowForm(false);
+      setEditingEvent(null);
     } catch (error) {
       setError('Error updating event');
     }
   };
 
-  const deleteEvent = async (eventId: number) => {
+  const handleDeleteEvent = async (eventId: number) => {
     if (!window.confirm('Are you sure you want to delete this event?')) {
       return;
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/events/${eventId}/`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Token ${djangoToken}`,
-        },
-      });
-
-      if (response.ok) {
-        setEvents(events.filter(event => event.id !== eventId));
-      } else {
-        const errorData = await response.json();
-        setError(`Failed to delete event: ${errorData.error || 'Unknown error'}`);
-      }
+      await deleteEvent(eventId);
+      setEvents(events.filter(event => event.id !== eventId));
     } catch (error) {
       setError('Error deleting event');
     }
   };
 
-  const handleEdit = (event: ClubEvent) => {
+  const handleEdit = (event: Event) => {
     setEditingEvent(event);
     setShowForm(true);
   };
@@ -126,7 +74,7 @@ export default function EventManagement() {
   };
 
   if (isLoading) {
-    return <div>Loading events...</div>;
+    return <DelayedLoadingSpinner isLoading={isLoading} size="lg" className="h-32" />;
   }
 
   if (error) {
@@ -155,7 +103,7 @@ export default function EventManagement() {
         <EventList
           events={events}
           onEdit={handleEdit}
-          onDelete={deleteEvent}
+          onDelete={handleDeleteEvent}
         />
       )}
     </div>

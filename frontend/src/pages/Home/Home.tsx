@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import Features from "./components/Features";
 import GroupMe from "./components/GroupMe";
 import { useFeaturedEvents } from "../../hooks/FeatureEventHook";
+import DelayedLoadingSpinner from "../../components/DelayedLoadingSpinner";
 
 export function Home() {
   const { loading, error } = useFeaturedEvents(); 
@@ -14,9 +15,7 @@ export function Home() {
   }
   if(loading) {
     return (
-      <div>
-        <p>Loading...</p>
-      </div>
+      <DelayedLoadingSpinner isLoading={loading} size="lg" className="h-32" />
     )
   }
   

@@ -2,9 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from '../store/hooks';
 import { setBoard} from '../store/slices/boardSlice';
-import type { Member } from '../types/Member';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import type { Member } from '../api/types';
+import { getBoardMembers } from '../api';
 
 export const useBoardMembers = () => {
   const [loading, setLoading] = useState(true);
@@ -16,16 +15,10 @@ export const useBoardMembers = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${API_BASE_URL}/members/board/`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
+      const data = await getBoardMembers();
       
       // Transform the data to match the frontend Member interface
-      const transformedMembers: Member[] = data.map((member: any) => ({
+      const transformedMembers: Member[] = data.map((member) => ({
         id: member.id,
         name: member.name,
         image: member.image,

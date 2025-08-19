@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Member } from '../../types/Member';
+import type { Member } from '../../api/types';
 
 
 const initialState: Member[] = []
