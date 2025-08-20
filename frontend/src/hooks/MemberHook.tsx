@@ -30,7 +30,6 @@ export const useMembers = () => {
       dispatch(setMembers(transformedMembers));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching members:', err);
     } finally {
       setLoading(false);
     }

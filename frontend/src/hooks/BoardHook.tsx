@@ -30,7 +30,6 @@ export const useBoardMembers = () => {
       dispatch(setBoard(transformedMembers));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching board members:', err);
     } finally {
       setLoading(false);
     }

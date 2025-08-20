@@ -68,10 +68,6 @@ const CompanyLogos = () => {
                     }),
                 });
 
-                if (!res.ok) {
-                    const err = await res.json().catch(() => ({}));
-                    console.error(res.status, err);
-                }
                 const data = await res.json(); // [{ name, id, updated_at, ... }]
 
 
@@ -83,11 +79,9 @@ const CompanyLogos = () => {
                             url: `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_COMPANIES_BUCKET}/${file.name}`
                         }))
 
-                    console.log('Fetched company images:', imageUrls)
                     setCompanyImages(imageUrls)
                 }
             } catch (error) {
-                console.error('Error fetching company images:', error)
             } finally {
                 setLoading(false)
             }
@@ -111,7 +105,7 @@ const CompanyLogos = () => {
     return (
         <div ref={logosContainerRef} className="w-full overflow-hidden bg-white">
             <div
-                className={`flex animate-scroll-left space-x-8 transition-all duration-1000 ease-out ${isVisible
+                className={`flex animate-scroll-left space-x-4 sm:space-x-6 md:space-x-8 transition-all duration-1000 ease-out ${isVisible
                         ? 'opacity-100'
                         : 'opacity-0'
                     }`}
@@ -121,7 +115,7 @@ const CompanyLogos = () => {
                         <img
                             src={image.url}
                             alt={`Company logo ${image.name}`}
-                            className="h-50 w-auto object-contain transition-all duration-300"
+                            className="h-32 lg:h-50 w-auto object-contain transition-all duration-300"
                             loading="lazy"
                         />
                     </div>
@@ -133,8 +127,8 @@ const CompanyLogos = () => {
 
 export const WeWorkHere = () => {
     return (
-        <div className="border-y-6 border-flat-gold bg-gray-200 py-5 text-3xl text-custom-black text-center dark:text-custom-black leading-relaxed py-10">
-            <div className="text-6xl font-bold text-flat-gold mb-12">
+        <div className="border-y-6 border-flat-gold bg-gray-200 py-5 sm:py-8 md:py-10 text-xl sm:text-2xl md:text-3xl text-custom-black text-center dark:text-custom-black leading-relaxed px-4">
+            <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-flat-gold mb-8 sm:mb-10 md:mb-12">
                 We Work Here
             </div>
             <CompanyLogos />

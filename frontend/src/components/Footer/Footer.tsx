@@ -1,29 +1,26 @@
 // src/components/Footer.jsx
-/*
-import {
-  Mail,
-  MapPin,
-} from 'lucide-react';
- 
 
-import { SiInstagram, SiGroupme } from '@icons-pack/react-simple-icons';
-*/
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { toggleTheme } from "../../store/slices/statusSlice";
+
 export default function Footer() {
+  const dispatch = useAppDispatch()
+  const theme = useAppSelector((state) => state.status.theme)
   return (
-    <footer className="bg-white dark:bg-flat-gold text-flat-gold dark:text-custom-black py-4 mt-auto border-t-2 border-flat-gold">
-      <div className="container mx-4 ">
-        <div className="flex px-1 gap-16">
+    <footer className="bg-white dark:bg-flat-gold text-flat-gold dark:text-custom-black py-4 mt-auto border-t-2 border-flat-gold relative">
+      <div className="container mx-4">
+        <div className="flex flex-col sm:flex-row items-center text-center sm:text-left sm:items-start px-1 gap-2 sm:gap-16">
           {/* Contact Us */}
           <div className="flex-shrink-0 min-w-0">
-          <div className="text-xl font-semibold mb-4 whitespace-nowrap">Contact Us</div>
-            <div className="space-y-2">
-              <p className="whitespace-nowrap">vsbc@vanderbilt.edu</p>
+            <div className="text-xl font-semibold mb-0 sm:mb-4 whitespace-nowrap">Contact Us</div>
+            <div className="whitespace-nowrap">
+              vsbc@vanderbilt.edu
             </div>
           </div>
 
           {/* Connect */}
           <div className="flex-shrink-0 min-w-0">
-            <div className="text-xl font-semibold mb-4 whitespace-nowrap">Connect</div>
+            <div className="text-xl font-semibold mb-1 sm:mb-4 whitespace-nowrap hidden sm:block ">Connect</div>
             <div className="flex gap-4">
               <a target="_blank" rel="noopener noreferrer" href="https://groupme.com/join_group/103038683/9a9nPuLp" aria-label="GroupMe" className="text-white hover:text-blue-400 transition-colors">
                 <img
@@ -64,8 +61,9 @@ export default function Footer() {
 
           {/* Interest Forms */}
           <div className="flex-shrink-0 min-w-0">
-            <div className="text-xl font-semibold mb-3 whitespace-nowrap">Interest Forms</div>
-            <div className="space-y-1">
+            <div className="text-xl font-semibold mb-0 mt-1 sm:mt-0 sm:mb-3 whitespace-nowrap">Interest Forms</div>
+            <div className="gap-4 sm:gap-1 flex flex-row sm:flex-col">
+              <div>
               <a
                 href="https://groupme.com/join_group/103038683/9a9nPuLp"
                 target="_blank"
@@ -74,6 +72,8 @@ export default function Footer() {
               >
                 Individuals
               </a>
+              </div>
+              <div>
               <a
                 href="https://groupme.com/join_group/103038683/9a9nPuLp"
                 target="_blank"
@@ -82,8 +82,28 @@ export default function Footer() {
               >
                 Organizations
               </a>
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Theme Toggle - Positioned in bottom right */}
+        <div className="absolute bottom-4 right-6">
+          <button
+              onClick={() => dispatch(toggleTheme())}
+              className="size-6 hover:scale-110 transition-all duration-300"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? (
+                <svg className="text-custom-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              ) : (
+                <svg className="text-flat-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              )}
+            </button>
         </div>
       </div>
     </footer>

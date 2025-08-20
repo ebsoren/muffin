@@ -46,7 +46,6 @@ export default function MemberManagement() {
       setEditingMember(null);
       setMembers(members.map(member => member.id === memberData.id ? memberData : member));
     } catch (error) {
-      console.error('Error updating member', error);
       setError('Error updating member');
     }
   };
@@ -66,7 +65,6 @@ export default function MemberManagement() {
           offset: 0,
         });
       if (listErr) {
-        console.error('Error listing images:', listErr);
       }
       for (const entry of entries || []) {
         await supabase

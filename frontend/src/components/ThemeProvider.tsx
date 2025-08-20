@@ -11,10 +11,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   useEffect(() => {
     const root = document.documentElement;
     
-    // Explicitly remove any existing dark class first
     root.classList.remove('dark');
-    
-    // Then add it only if theme is dark
     if (theme === 'dark') {
       root.classList.add('dark');
     }

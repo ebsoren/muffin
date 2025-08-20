@@ -40,10 +40,8 @@ export default function EventImageUpload({ onImageUploaded, currentImage, classN
     // Validate file size (200KB limit) and resize if needed
     let fileToUpload = file;
     if (file.size > 200 * 1024) {
-      console.log(`Resizing image ${file.name} to 200KB`);
       try {
         fileToUpload = await resizeImageToFitSize(file, 200 * 1024);
-        console.log(`Resized image size: ${(fileToUpload.size / 1024).toFixed(1)}KB`);
       } catch (error) {
         setUploadError(`Failed to resize image: ${error instanceof Error ? error.message : 'Unknown error'}`);
         return;
@@ -66,8 +64,6 @@ export default function EventImageUpload({ onImageUploaded, currentImage, classN
           .remove([currentImage]);
         
         if (deleteError) {
-          console.warn('Failed to delete old image:', deleteError);
-          // Continue with upload even if deletion fails
         }
       }
 

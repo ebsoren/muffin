@@ -40,7 +40,7 @@ export default function Features() {
           : 'opacity-0'
       }`}
     >
-      <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-4 m-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-2 sm:m-4">
         {features.map((event, index) => (
           <EventBox key={index} event={event} size={"large"} />
         ))}

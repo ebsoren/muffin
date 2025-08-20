@@ -39,7 +39,7 @@ export function EventBox({ event, size }: EventBoxProps) {
   return (
     <div 
       ref={eventBoxRef}
-      className={`${size == "large" ? "h-120" : (size == "medium" ? "h-100" : "h-80")} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-1000 ease-out relative group ${
+      className={`${size == "large" ? "h-80 sm:h-96 md:h-108 lg:h-120" : (size == "medium" ? "h-64 sm:h-80 md:h-90 lg:h-100" : "h-56 sm:h-64 md:h-72 lg:h-80")} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-1000 ease-out relative group ${
         isVisible 
           ? 'opacity-100' 
           : 'opacity-0'
@@ -62,12 +62,12 @@ export function EventBox({ event, size }: EventBoxProps) {
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/100 via-black/40 to-transparent" />
 
       {/* Content */}
-      <div className="relative h-full flex flex-col pl-4 pb-4 text-white">
+      <div className="relative h-full flex flex-col pl-3 sm:pl-4 pb-3 sm:pb-4 text-white">
         {/* Spacer to push all text to bottom */}
         <div className="flex-1"></div>
 
         {/* Title */}
-        <div className="text-3xl font-bold leading-tight text-white">
+        <div className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight text-white">
           {event.title}
         </div>
 
@@ -77,7 +77,7 @@ export function EventBox({ event, size }: EventBoxProps) {
           {/* Description */}
           {event.description && (
             <div>
-              <p className="text-base leading-relaxed opacity-90 line-clamp-3">
+              <p className="text-sm sm:text-base leading-relaxed opacity-90 line-clamp-3">
                 {event.description}
               </p>
             </div>
@@ -86,19 +86,19 @@ export function EventBox({ event, size }: EventBoxProps) {
           {/* Date and Location */}
           <div>
             {event.date && (
-              <div className="flex items-center text-base">
-                <svg className="w-5 h-5 mr-2 text-flat-gold" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex items-center text-sm sm:text-base">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-flat-gold" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                 </svg>
-                <p className="text-sm">{event.date}</p>
+                <p className="text-xs sm:text-sm">{event.date}</p>
               </div>
             )}
             {event.location && (
-              <div className="flex items-center text-base">
-                <svg className="w-5 h-5 mr-2 text-flat-gold" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex items-center text-sm sm:text-base">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-flat-gold" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                 </svg>
-                <p className="text-sm">{event.location}</p>
+                <p className="text-xs sm:text-sm">{event.location}</p>
               </div>
             )}
           </div>

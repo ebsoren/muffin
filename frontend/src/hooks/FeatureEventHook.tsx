@@ -31,7 +31,6 @@ export const useFeaturedEvents = () => {
       dispatch(setFeatures(transformedEvents));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching featured events:', err);
     } finally {
       setLoading(false);
     }

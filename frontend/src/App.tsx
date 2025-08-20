@@ -15,7 +15,7 @@ import { useAuth } from './hooks/useAuth';
 import { NotFound } from './pages/NotFound/NotFound';
 
 function AppContent() {
-  // Check authentication on app startup
+
   useAuth();
 
   return (

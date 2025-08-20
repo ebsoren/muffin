@@ -51,16 +51,16 @@ export function Members() {
     setMemberData(updatedMember);
   };
   return (isAuthenticated && user &&
-    <div className="min-h-screen bg-gray-50 dark:bg-custom-gray py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-custom-gray py-8 sm:py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <div className="text-3xl font-bold text-gray-900 dark:text-white">
+        <div className="mb-6 sm:mb-8">
+          <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
             Manage Profile
           </div>
         </div>
 
         {isLoading && (
-          <div className="text-center py-8">
+          <div className="text-center py-6 sm:py-8">
             <DelayedLoadingSpinner isLoading={isLoading} size="md" />
           </div>
         )}
@@ -71,7 +71,7 @@ export function Members() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Profile Editor */}
           <div>
             <ProfileEditor
@@ -81,29 +81,29 @@ export function Members() {
           </div>
 
           {/* Current Profile Display */}
-          <div className="bg-white dark:bg-custom-black shadow rounded-lg p-6">
-            <div className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-custom-black shadow rounded-lg p-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
               Current Profile
             </div>
 
             {memberData ? (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {memberData.image && (
                   <div className="flex justify-center">
                     <img
                       src={`${SUPABASE_URL}/storage/v1/object/public/profile-pics/${memberData.image}`}
                       alt="Profile"
-                      className="w-32 h-32 object-cover rounded-full border-4 border-flat-gold"
+                      className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full border-4 border-flat-gold"
                     />
                   </div>
                 )}
 
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
                       Name
                     </label>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white">
+                    <p className="text-base sm:text-lg font-medium text-gray-900 dark:text-white">
                       {memberData.name || 'Not set'}
                     </p>
                   </div>
@@ -112,7 +112,7 @@ export function Members() {
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
                       Title
                     </label>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white">
+                    <p className="text-base sm:text-lg font-medium text-gray-900 dark:text-white">
                       {memberData.title || 'Not set'}
                     </p>
                   </div>
@@ -121,7 +121,7 @@ export function Members() {
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
                       LinkedIn
                     </label>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white">
+                    <p className="text-base sm:text-lg font-medium text-gray-900 dark:text-white">
                       {memberData.linkedIn ?? 'Not set'
                       }
                     </p>
@@ -131,15 +131,15 @@ export function Members() {
                     <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
                       Board Member
                     </label>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white">
+                    <p className="text-base sm:text-lg font-medium text-gray-900 dark:text-white">
                       {memberData.board ? 'Yes' : 'No'}
                     </p>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="text-center text-gray-500 dark:text-gray-400 py-8">
-                <p>No profile data yet. Use the form to create your profile.</p>
+              <div className="text-center text-gray-500 dark:text-gray-400 py-6 sm:py-8">
+                <p className="text-sm sm:text-base">No profile data yet. Use the form to create your profile.</p>
               </div>
             )}
           </div>

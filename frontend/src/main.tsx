@@ -11,7 +11,6 @@ import { checkStatus } from './api'
 // Helper function to extract user data from Supabase session
 export const extractUserDataFromSession = async (session: any): Promise<User | null> => {
   try {
-    // Extract name from user metadata - handle different possible structures
     const userMetadata = session.user.user_metadata || {};
     
     let firstName = '';
@@ -40,7 +39,7 @@ export const extractUserDataFromSession = async (session: any): Promise<User | n
       lastName = '';
     }
 
-    // Query Supabase for admin status and member status (with timeout protection)
+    // Query Supabase for admin/member status
     const email = session.user.email || '';
     
     let isAdmin = false;
@@ -73,14 +72,12 @@ export const extractUserDataFromSession = async (session: any): Promise<User | n
 
     return userData;
   } catch (error) {
-      console.warn('status check failed or timed out, defaulting to false:', error);
       isAdmin = false;
       isMember = false;
     
       return null
     }
   } catch (error) {
-    console.error('Error extracting user data from session:', error);
     return null
   }
 };
@@ -111,12 +108,10 @@ const restoreSession = async () => {
         ]) as any;
         store.dispatch(supabaseAuthSuccess({ user: userData, token: session.access_token }));
       } catch (userDataError) {
-        console.warn('Session restoration failed, continuing without user data:', userDataError);
         // Continue without user data rather than hanging
       }
     }
   } catch (error) {
-    console.warn('Session restoration error:', error);
     // Continue without session rather than hanging
   }
 };
@@ -152,7 +147,6 @@ const setupAuthListener = () => {
 setTimeout(() => {
   // Add timeout protection to prevent indefinite hanging
   const initTimeout = setTimeout(() => {
-    console.warn('Auth initialization timed out, continuing without session restoration');
   }, 10000);
   
   Promise.race([

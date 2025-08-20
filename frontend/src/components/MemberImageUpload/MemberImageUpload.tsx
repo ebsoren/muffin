@@ -40,10 +40,8 @@ export default function MemberImageUpload({ onImageUploaded, currentImage, class
     // Validate file size (100KB limit) and resize if needed
     let fileToUpload = file;
     if (file.size > 100 * 1024) {
-      console.log(`Resizing image ${file.name} to 100KB`);
       try {
         fileToUpload = await resizeImageToFitSize(file, 100 * 1024);
-        console.log(`Resized image size: ${(fileToUpload.size / 1024).toFixed(1)}KB`);
       } catch (error) {
         setUploadError(`Failed to resize image: ${error instanceof Error ? error.message : 'Unknown error'}`);
         return;

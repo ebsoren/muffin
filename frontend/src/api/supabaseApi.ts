@@ -128,9 +128,7 @@ export const uploadImage = async (request: ImageUploadRequest): Promise<ImageUpl
     // Check if file needs resizing
     if (file.size > maxSizeBytes) {
       try {
-        console.log(`Resizing ${bucket_type} image from ${(file.size / 1024).toFixed(1)}KB to fit ${(maxSizeBytes / 1024).toFixed(1)}KB limit`);
         processedFile = await resizeImageToFitSize(file, maxSizeBytes);
-        console.log(`Resized image size: ${(processedFile.size / 1024).toFixed(1)}KB`);
       } catch (resizeError) {
         const errorMessage = resizeError instanceof Error ? resizeError.message : 'Unknown error';
         throw new Error(`Image too large (${(file.size / 1024).toFixed(1)}KB) and could not be resized to fit ${(maxSizeBytes / 1024).toFixed(1)}KB limit: ${errorMessage}`);
@@ -187,7 +185,6 @@ export const checkStatus = async (email: string): Promise<MemberStatusResponse> 
     });
 
     if (error) {
-      console.warn('Member status check failed, defaulting to false:', error);
       return { is_member: false, email: email, id: "", is_admin: false };
     }
 
@@ -198,7 +195,6 @@ export const checkStatus = async (email: string): Promise<MemberStatusResponse> 
       is_admin: data.is_admin || false
     };
   } catch (error) {
-    console.warn('Member status check error, defaulting to false:', error);
     return { is_member: false, email: email, id: "", is_admin: false };
 
   }
@@ -319,14 +315,12 @@ export const getMembers = async (): Promise<Member[]> => {
 
 export const getMember = async (email: string, id_val: string): Promise<Member> => {
   try {
-    console.log('getMember called with email:', email);
     
     const memberStatus = await checkStatus(email);
     if (!memberStatus.is_member) {
       throw new Error('User email not found in allowed emails');
     }
-    
-    console.log('Member status check passed, querying members table...');
+
     const { data, error } = await supabase
       .from('members')
       .select('*')
@@ -335,15 +329,12 @@ export const getMember = async (email: string, id_val: string): Promise<Member> 
 
     if (error) {
       if (error.code === 'PGRST116') {
-        console.log('No member found in database, will create new one');
       } else {
         throw new Error(`Failed to fetch member: ${error.message}`);
       }
     }
 
     if(!data || data.length === 0){
-      console.log('data', data);
-      console.log('No existing member data, creating new member...');
       // Try to create member if it doesn't exist
       try {
         const { data: createData, error: createError } = await supabase.functions.invoke("create_member", {
@@ -351,12 +342,10 @@ export const getMember = async (email: string, id_val: string): Promise<Member> 
         });
         
         if (createError) {
-          console.error('Failed to create member:', createError);
         }
         
         // If creation was successful, use the created data
         if (createData) {
-          console.log('Member created successfully:', createData);
           return {
             id: createData.id,
             name: createData.name || null,
@@ -368,13 +357,11 @@ export const getMember = async (email: string, id_val: string): Promise<Member> 
         }
 
       } catch (createError) {
-        console.error('Member creation failed:', createError);
       }
     }
     
     // Return the existing member data
     if (Array.isArray(data) && data.length > 0) {
-      console.log('Returning existing member data:', data[0]);
       return {
         id: data[0].id,
         name: data[0].name,
@@ -385,7 +372,6 @@ export const getMember = async (email: string, id_val: string): Promise<Member> 
       };
     } 
     else {
-      console.log('No valid member data found, returning default');
       return {
         id: "",
         name: 'Unknown',
@@ -396,7 +382,6 @@ export const getMember = async (email: string, id_val: string): Promise<Member> 
       };
     }
   } catch (error) {
-    console.error('getMember function error:', error);
     throw error;
   }
 };
@@ -429,7 +414,6 @@ export const createMember = async (memberData: MemberCreateRequest): Promise<Mem
 };
 
 export const updateMember = async (memberData: Member): Promise<Member> => {
-  console.log('updateMember called with memberData:', memberData);
   const { data, error } = await supabase
     .from('members')
     .update({
@@ -446,7 +430,6 @@ export const updateMember = async (memberData: Member): Promise<Member> => {
   if (error) {
     throw new Error(`Failed to update member: ${error.message}`);
   }
-  console.log('updateMember data:', data);
   return {
     id: data[0]?.id || "",
     name: data[0]?.name || "",

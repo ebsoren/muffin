@@ -1,15 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { toggleTheme } from '../../store/slices/statusSlice';
 import { logout, clearError } from '../../store/slices/authSlice';
 import { LoginModal } from '../Auth/LoginModal';
 import { supabase } from '../../utils/supabaseClient';
-import DelayedLoadingSpinner from '../DelayedLoadingSpinner';
 
 export function NavBar() {
   const dispatch = useAppDispatch();
-  const theme = useAppSelector(state => state.status.theme);
   const { user, isAuthenticated, isLoading, error } = useAppSelector(state => state.auth);
   const isMember = user?.isMember;
   const location = useLocation();
@@ -17,6 +14,7 @@ export function NavBar() {
 
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
 
@@ -26,11 +24,11 @@ export function NavBar() {
     try {
       await supabase.auth.signOut();
     } catch (error) {
-      console.error('Error signing out from Supabase:', error);
     }
     
     dispatch(logout());
     setShowUserMenu(false);
+    setShowMobileMenu(false);
   };
 
   // Close user menu when clicking outside
@@ -52,14 +50,29 @@ export function NavBar() {
 
   const handleLoginClick = () => {
     setShowLoginModal(true);
+    setShowMobileMenu(false);
+  };
+
+  const closeMobileMenu = () => {
+    setShowMobileMenu(false);
   };
 
   return (
     <>
       <nav className="w-full bg-white dark:bg-flat-gold border-b border-flat-gold px-4 py-4 shadow-sm duration-200">
         <div className="flex justify-between items-center">
-          {/* Navigation Links */}
-          <div className="flex items-center gap-8">
+          {/* Logo/Brand */}
+          <div className="flex items-center">
+            <Link 
+              to="/" 
+              className="text-xl font-bold text-flat-gold dark:text-custom-black"
+            >
+              VSBC
+            </Link>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-8">
             <Link 
               to="/" 
               className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
@@ -114,28 +127,8 @@ export function NavBar() {
             )}
           </div>
 
-          <div className="w-4"/>
-          
-          {/* Right side - Theme toggle and Auth */}
-          <div className="flex items-center gap-4">
-            {/* Theme Toggle */}
-            <button
-              onClick={() => dispatch(toggleTheme())}
-              className="size-6 hover:scale-110 transition-all duration-300"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <svg className="text-custom-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              ) : (
-                <svg className="text-flat-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              )}
-            </button>
-
-            {/* Authentication */}
+          {/* Desktop Auth */}
+          <div className="hidden md:flex items-center">
             {error ? (
               <div className="flex items-center gap-2 px-3 py-2 text-red-600 text-sm">
                 <span>Auth Error</span>
@@ -145,10 +138,6 @@ export function NavBar() {
                 >
                   Dismiss
                 </button>
-              </div>
-            ) : isLoading ? (
-              <div className="flex items-center gap-2 px-3 py-2">
-                <DelayedLoadingSpinner size="sm" isLoading={isLoading} />
               </div>
             ) : isAuthenticated ? (
               <div className="relative">
@@ -164,12 +153,10 @@ export function NavBar() {
                         className="w-6 h-6 rounded-full absolute inset-0"
                         crossOrigin="anonymous"
                         onError={(e) => {
-                          console.error('Profile picture failed to load:', user.profile_picture);
                           // Hide the broken image, initials will show through
                           (e.target as HTMLImageElement).style.display = 'none';
                         }}
                         onLoad={() => {
-                          console.log('Profile picture loaded successfully:', user.profile_picture);
                         }}
                       />
                     )}
@@ -193,7 +180,7 @@ export function NavBar() {
                     </div>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                     >
                       Logout
                     </button>
@@ -201,17 +188,130 @@ export function NavBar() {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div >
                 <button
                   onClick={handleLoginClick}
-                  className="px-2 py-2 text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors"
+                  className="px-2 py-2 text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors cursor-pointer"
                 >
                   Login
                 </button>
               </div>
             )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="text-flat-gold dark:text-custom-black p-2"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {showMobileMenu && (
+          <div className="md:hidden mt-4 pb-4 border-t border-flat-gold dark:border-custom-black">
+            <div className="flex flex-col space-y-4 pt-4">
+              <Link 
+                to="/" 
+                onClick={closeMobileMenu}
+                className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
+                  location.pathname === '/' ? 'font-bold' : ''
+                }`}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/about" 
+                onClick={closeMobileMenu}
+                className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
+                  location.pathname === '/about' ? 'font-bold' : ''
+                }`}
+              >
+                About
+              </Link>
+              <Link 
+                to="/events" 
+                onClick={closeMobileMenu}
+                className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
+                  location.pathname === '/events' ? 'font-bold' : ''
+                }`}
+              >
+                Events
+              </Link>
+              <Link 
+                to="/join" 
+                onClick={closeMobileMenu}
+                className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
+                  location.pathname === '/join' ? 'font-bold' : ''
+                }`}
+              >
+                Join
+              </Link>
+              {isAuthenticated && !isLoading && isMember &&(
+              <Link 
+                to="/members" 
+                onClick={closeMobileMenu}
+                className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
+                  location.pathname === '/members' ? 'font-bold' : ''
+                }`}
+              >
+                Members
+              </Link>
+              )}
+              {isAuthenticated && !isLoading && user?.is_admin && (
+                <Link 
+                  to="/admin" 
+                  onClick={closeMobileMenu}
+                  className={`text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors ${
+                    location.pathname === '/admin' ? 'font-bold' : ''
+                  }`}
+                >
+                  Admin
+                </Link>
+              )}
+              
+              {/* Mobile Auth */}
+              {error ? (
+                <div className="flex items-center gap-2 px-3 py-2 text-red-600 text-sm">
+                  <span>Auth Error</span>
+                  <button 
+                    onClick={() => dispatch(clearError())}
+                    className="text-xs underline hover:no-underline"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              ) : isAuthenticated ? (
+                <div className="pt-2 border-t border-flat-gold dark:border-custom-black">
+                  <div className="px-3 py-2 text-sm text-flat-gold dark:text-custom-black">
+                    <p className="font-medium">{user?.first_name} {user?.last_name}</p>
+                    <p className="text-gray-500 dark:text-gray-400">{user?.email}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left py-2 text-md text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="pt-2 border-t border-flat-gold dark:border-custom-black">
+                  <button
+                    onClick={handleLoginClick}
+                    className="block w-full text-left px-3 py-2 text-sm text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors cursor-pointer"
+                  >
+                    Login
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Modals */}

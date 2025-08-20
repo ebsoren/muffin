@@ -30,7 +30,6 @@ export const useClubEvents = () => {
       dispatch(setEvents(transformedEvents));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching club events:', err);
     } finally {
       setLoading(false);
     }

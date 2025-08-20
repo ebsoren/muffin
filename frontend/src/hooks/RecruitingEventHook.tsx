@@ -31,7 +31,6 @@ export const useRecruitingEvents = () => {
       dispatch(setRecruitingEvents(transformedEvents));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching recruiting events:', err);
     } finally {
       setLoading(false);
     }

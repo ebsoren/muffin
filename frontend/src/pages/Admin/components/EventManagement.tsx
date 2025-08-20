@@ -34,7 +34,6 @@ export default function EventManagement() {
       setShowForm(false);
       setEditingEvent(null);
     } catch (error) {
-      console.error('Error adding event:', error);
       setError('Error adding event');
     }
   };

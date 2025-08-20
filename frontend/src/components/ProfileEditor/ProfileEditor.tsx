@@ -62,7 +62,6 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
       
       // Validate file size (100KB limit) and resize if needed
       if (file.size > 100 * 1024) {
-        console.log(`Resizing image ${file.name} to 100KB`);
         resizeImageToFitSize(file, 100 * 1024).then(resizedFile => {
           setSelectedImage(resizedFile);
           const url = URL.createObjectURL(resizedFile);
@@ -141,23 +140,13 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
             cacheControl: '3600',
             upsert: false
           });
-        
-        console.log('uploadData', uploadData);
-        console.log('uploadError', uploadError);
+
         if (uploadError) {
           throw new Error(`Image upload failed: ${uploadError.message}`);
         }
         
         imageUrl = uploadData.path; // Store the path, not the full URL
       }
-
-      console.log('Updating member with table_id:', user?.table_id);
-      console.log('Update data:', {
-        name: formData.name.trim(),
-        linkedin: formData.linkedIn.trim() || null,
-        title: formData.title.trim() || null,
-        image: imageUrl || currentMemberData?.image || null
-      });
       
       // Update the member record in the database
       const { data: updateData, error: updateError } = await supabase
@@ -177,7 +166,6 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
       }
 
       setSuccess('Profile updated successfully!');
-      console.log('updateData', updateData);
       
       // Call the callback with updated member data
       if (onProfileUpdate && updateData) {
