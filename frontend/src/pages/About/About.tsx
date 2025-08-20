@@ -21,8 +21,8 @@ export function About() {
   }
 
   return (
-    <div className="min-h-screen w-full mx-20 bg-white dark:bg-custom-black duration-200">
-      <div className="text-5xl text-center text-flat-gold m-8">
+    <div className="min-h-screen w-full lg:mx-12 bg-white dark:bg-custom-black duration-200">
+      <div className="text-3xl sm:text-4xl lg:text-5xl text-center text-flat-gold m-8">
         Our mission is to approach the sports industry with innovative data analytics and strategic insights that enhance performance, on and off the field.
       </div>
 

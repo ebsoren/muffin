@@ -8,8 +8,8 @@ export default function Footer() {
   const theme = useAppSelector((state) => state.status.theme)
   return (
     <footer className="bg-white dark:bg-flat-gold text-flat-gold dark:text-custom-black py-4 mt-auto border-t-2 border-flat-gold relative">
-      <div className="container mx-4">
-        <div className="flex flex-col sm:flex-row items-center text-center sm:text-left sm:items-start px-1 gap-2 sm:gap-16">
+      <div className="container ">
+        <div className="flex flex-col sm:flex-row items-center text-center sm:text-left sm:items-start gap-2 sm:gap-16 sm:mx-4">
           {/* Contact Us */}
           <div className="flex-shrink-0 min-w-0">
             <div className="text-xl font-semibold mb-0 sm:mb-4 whitespace-nowrap">Contact Us</div>

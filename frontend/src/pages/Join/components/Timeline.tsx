@@ -61,7 +61,7 @@ export default function Timeline() {
                 ? 'opacity-100'
                 : 'opacity-0'
                 }`}>
-                <div className={`absolute left-1/2 bottom-0 transform -translate-x-1/2 h-full ${index == 0 ? 'h-1/2!' : ''} ${index == events.length - 1 ? 'h-1/2! -translate-y-42' : ''} w-4 bg-flat-gold border-4 border-flat-gold dark:bg-flat-gold shadow-lg ${showTimeline ? 'opacity-100' : 'opacity-0'
+                <div className={`absolute left-1/2 bottom-0 transform -translate-x-1/2 h-full translate-y-10 ${index == 0 ? 'h-1/2!' : ''} ${index == events.length - 1 ? 'h-1/2! -translate-y-55!' : ''} w-4 bg-flat-gold border-4 border-flat-gold dark:bg-flat-gold shadow-lg ${showTimeline ? 'opacity-100' : 'opacity-0'
                   }`} />
                 <div className={`absolute left-1/2 bottom-2/5 transform -translate-x-1/2 w-10 h-10 border-4 border-flat-gold bg-flat-gold rounded-full hidden lg:block shadow-lg ${showTimeline ? 'opacity-100' : 'opacity-0'
                   }`} />
@@ -71,15 +71,15 @@ export default function Timeline() {
             {/* Event Content */}
             <div className={`flex items-center z-0 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
               {/* Spacer */}
-              <div className="w-1/2 z-0"></div>
+              <div className="w-1/2 hidden lg:block"></div>
 
               {/* Event Box */}
-              <div className={`w-full z-20 ${index % 2 === 0 ? 'lg:pl-120 sm:pl-0' : 'lg:pr-120 sm:pl-0'}`}>
-                <EventBox event={event} size={"small"} />
+              <div className={`w-full z-20 px-2 lg:px-0 ${index % 2 === 0 ? 'lg:translate-x-1/3 lg:pl-36 xl:pl-50' : 'lg:-translate-x-1/3 lg:pr-36 xl:pr-50'}`}>
+                <EventBox event={event} size={"large"} />
               </div>
 
               {/* Spacer */}
-              <div className="w-1/2"></div>
+              <div className="w-1/2 hidden lg:block"></div>
             </div>
           </div>
         ))}

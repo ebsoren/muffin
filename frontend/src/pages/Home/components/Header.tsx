@@ -4,7 +4,7 @@ import { SUPABASE_MEDIA_BUCKET, SUPABASE_URL } from "../../../utils/constants"
 
 
 const AnimatedText = () => {
-  const words = ['business', 'mentorship', 'analytics', 'management', 'networking', 'innovation', 'consulting', 'finance', 'fantasy football'];
+  const words = ['business', 'mentorship', 'analytics', 'management', 'networking', 'innovation', 'consulting', 'finance'];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -21,7 +21,7 @@ const AnimatedText = () => {
   }, []);
 
   return (
-    <div className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-flat-gold flex items-center justify-center text-center px-4">
+    <div className="text-7xl md:text-8xl lg:text-9xl font-bold text-flat-gold flex items-center justify-center text-center px-4">
       <span
         className={`transition-all duration-400 ease-in-out ${isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
           }`}
@@ -80,7 +80,7 @@ export default function Header() {
         <div className="absolute inset-0 bg-black/50"></div>
         
         {/* Content with relative positioning to appear above overlay */}
-        <div className="relative z-10 text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white justify-center text-center px-4">
+        <div className="relative z-10 text-5xl md:text-6xl lg:text-7xl text-white justify-center text-center px-4">
           <span className="font-bold">VSBC</span><span className="font-normal"> is sports and</span>
         </div>
         <div className="relative z-10 flex flex-col items-center justify-center gap-8 sm:gap-12 md:gap-16 lg:gap-20 px-4">

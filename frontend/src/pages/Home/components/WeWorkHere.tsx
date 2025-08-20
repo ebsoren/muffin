@@ -115,7 +115,7 @@ const CompanyLogos = () => {
                         <img
                             src={image.url}
                             alt={`Company logo ${image.name}`}
-                            className="h-32 lg:h-50 w-auto object-contain transition-all duration-300"
+                            className="h-50 w-auto object-contain transition-all duration-300"
                             loading="lazy"
                         />
                     </div>
@@ -128,7 +128,7 @@ const CompanyLogos = () => {
 export const WeWorkHere = () => {
     return (
         <div className="border-y-6 border-flat-gold bg-gray-200 py-5 sm:py-8 md:py-10 text-xl sm:text-2xl md:text-3xl text-custom-black text-center dark:text-custom-black leading-relaxed px-4">
-            <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-flat-gold mb-8 sm:mb-10 md:mb-12">
+            <div className="text-6xl font-bold text-flat-gold mb-8 sm:mb-10 md:mb-12">
                 We Work Here
             </div>
             <CompanyLogos />

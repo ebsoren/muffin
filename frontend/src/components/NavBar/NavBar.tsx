@@ -303,7 +303,7 @@ export function NavBar() {
                 <div className="pt-2 border-t border-flat-gold dark:border-custom-black">
                   <button
                     onClick={handleLoginClick}
-                    className="block w-full text-left px-3 py-2 text-sm text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors cursor-pointer"
+                    className="block w-full text-left py-2 text-md text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors cursor-pointer"
                   >
                     Login
                   </button>
