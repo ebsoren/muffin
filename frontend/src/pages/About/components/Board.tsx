@@ -5,7 +5,7 @@ export default function Board() {
   const boardMembers = useAppSelector(state => state.board);
   return (
     <div className="w-full bg-white dark:bg-custom-black duration-200 py-8">
-        <div className="text-2xl font-bold text-flat-gold dark:text-white mb-8 text-center">
+        <div className="text-5xl font-bold text-flat-gold dark:text-white mb-8 text-center">
           Executive Board
         </div>
         

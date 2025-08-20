@@ -1,5 +1,6 @@
 import type { Event } from "../../api/types";
 import { getEventImageUrl } from "../../utils/supabase";
+import { useEffect, useState, useRef } from "react";
 
 interface EventBoxProps {
   event: Event;
@@ -8,13 +9,46 @@ interface EventBoxProps {
 
 export function EventBox({ event, size }: EventBoxProps) {
   const imageUrl = getEventImageUrl(event.image);
+  const [isVisible, setIsVisible] = useState(false);
+  const eventBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Intersection Observer for scroll-triggered animations
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the element is visible
+        rootMargin: '50px' // Start animation 50px before element comes into view
+      }
+    );
+
+    // Observe the event box
+    if (eventBoxRef.current) {
+      observer.observe(eventBoxRef.current);
+    }
+
+    return () => {
+      if (eventBoxRef.current) {
+        observer.unobserve(eventBoxRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className={`${size == "large" ? "h-120" : (size == "medium" ? "h-100" : "h-80")} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group`}>
+    <div 
+      ref={eventBoxRef}
+      className={`${size == "large" ? "h-120" : (size == "medium" ? "h-100" : "h-80")} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-1000 ease-out relative group ${
+        isVisible 
+          ? 'opacity-100' 
+          : 'opacity-0'
+      }`}
+    >
       {/* Background Image */}
       {imageUrl && (
         <div
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full transition-all duration-1000 ease-out"
           style={{
             backgroundImage: `url(${imageUrl})`,
             backgroundSize: 'cover',

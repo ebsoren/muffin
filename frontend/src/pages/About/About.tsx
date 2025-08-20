@@ -7,14 +7,14 @@ import DelayedLoadingSpinner from '../../components/DelayedLoadingSpinner';
 export function About() {
   const { loading: boardLoading, error: boardError } = useBoardMembers();
   const { loading: membersLoading, error: membersError } = useMembers();
-  if(boardError || membersError) {
+  if (boardError || membersError) {
     return (
       <div>
         <p>Error retrieving board members or members</p>
       </div>
     )
   }
-  if(boardLoading || membersLoading) {
+  if (boardLoading || membersLoading) {
     return (
       <DelayedLoadingSpinner isLoading={boardLoading || membersLoading} size="lg" className="h-32" />
     )
@@ -22,9 +22,12 @@ export function About() {
 
   return (
     <div className="min-h-screen w-full mx-20 bg-white dark:bg-custom-black duration-200">
-      <Board/>
+      <div className="text-5xl text-center text-flat-gold m-8">
+        Our mission is to approach the sports industry with innovative data analytics and strategic insights that enhance performance, on and off the field.
+      </div>
+
+      <Board />
       {/* <Members/> */}
-      
     </div>
   );
 } 

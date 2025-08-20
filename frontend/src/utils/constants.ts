@@ -3,4 +3,4 @@ export const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ
 export const SUPABASE_MEDIA_BUCKET='media'
 export const SUPABASE_PROFILE_BUCKET='profile-pics'
 export const SUPABASE_EVENT_BUCKET='events'
-
+export const SUPABASE_COMPANIES_BUCKET='company-pictures'
