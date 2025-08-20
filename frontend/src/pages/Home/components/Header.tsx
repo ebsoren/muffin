@@ -80,7 +80,7 @@ export default function Header() {
         <div className="absolute inset-0 bg-black/50"></div>
         
         {/* Content with relative positioning to appear above overlay */}
-        <div className="relative z-10 text-5xl md:text-6xl lg:text-7xl text-white justify-center text-center px-4">
+        <div className="relative z-10 text-4xl md:text-6xl lg:text-7xl text-white justify-center text-center px-4">
           <span className="font-bold">VSBC</span><span className="font-normal"> is sports and</span>
         </div>
         <div className="relative z-10 flex flex-col items-center justify-center gap-8 sm:gap-12 md:gap-16 lg:gap-20 px-4">
