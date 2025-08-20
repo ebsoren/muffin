@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { ThemeProvider } from './components/ThemeProvider';
+import { Analytics } from '@vercel/analytics/react';
 import { NavBar } from './components/NavBar/NavBar';
 import { About } from './pages/About/About';
 import { Events } from './pages/Events/Events';
@@ -44,6 +45,7 @@ function App() {
       <ThemeProvider>
         <Router>
           <AppContent />
+          <Analytics />
         </Router>
       </ThemeProvider>
     </Provider>
