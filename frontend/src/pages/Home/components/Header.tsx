@@ -21,7 +21,7 @@ const AnimatedText = () => {
   }, []);
 
   return (
-    <div className="text-7xl md:text-8xl lg:text-9xl font-bold text-flat-gold flex items-center justify-center text-center px-4">
+    <div className="text-5xl md:text-8xl lg:text-9xl font-bold text-flat-gold flex items-center justify-center text-center px-4">
       <span
         className={`transition-all duration-400 ease-in-out ${isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
           }`}
