@@ -27,9 +27,9 @@ export default function Footer() {
             <div className="flex gap-4">
               <a target="_blank" rel="noopener noreferrer" href="https://groupme.com/join_group/103038683/9a9nPuLp" aria-label="GroupMe" className="text-white hover:text-blue-400 transition-colors">
                 <img
-                  src="/src/assets/GroupMeBlue.png"
+                  src="/GroupMeBlue.png"
                   alt="GroupMe"
-                  aria-label="GroupMe logo white"
+                  aria-label="GroupMe logo blue"
                   loading="lazy"
                   decoding="async"
                   className="w-6 h-6 hover:scale-110 transition-transform duration-300"

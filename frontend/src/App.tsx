@@ -12,6 +12,7 @@ import { Members } from './pages/Members/Members';
 import { AuthCallback } from './pages/AuthCallback/AuthCallback';
 import Footer from './components/Footer/Footer';
 import { useAuth } from './hooks/useAuth';
+import { NotFound } from './pages/NotFound/NotFound';
 
 function AppContent() {
   // Check authentication on app startup
@@ -29,6 +30,7 @@ function AppContent() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/members" element={<Members />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
