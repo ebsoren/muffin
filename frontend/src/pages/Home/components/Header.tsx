@@ -4,7 +4,7 @@ import { SUPABASE_MEDIA_BUCKET, SUPABASE_URL } from "../../../utils/constants"
 
 
 const AnimatedText = () => {
-  const words = ['business', 'mentorship', 'analytics', 'management', 'networking', 'innovation', 'consulting', 'finance'];
+  const words = ['business', 'mentorship', 'analytics', 'management', 'networking', 'innovation', 'consulting', 'finance', 'psychology'];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 

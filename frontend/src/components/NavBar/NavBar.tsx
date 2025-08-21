@@ -105,6 +105,14 @@ export function NavBar() {
             >
               Join
             </Link>
+            <a 
+              href="https://vsbacblog.substack.com/" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors"
+            >
+              Blog
+            </a>
             {isAuthenticated && !isLoading && isMember &&(
             <Link 
               to="/members" 
@@ -252,6 +260,15 @@ export function NavBar() {
               >
                 Join
               </Link>
+              <a 
+                href="https://vsbacblog.substack.com/" 
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeMobileMenu}
+                className="text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors"
+              >
+                Blog
+              </a>
               {isAuthenticated && !isLoading && isMember &&(
               <Link 
                 to="/members" 

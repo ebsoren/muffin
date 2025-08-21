@@ -14,14 +14,17 @@ export default function Footer() {
           <div className="flex-shrink-0 min-w-0">
             <div className="text-xl font-semibold mb-0 sm:mb-2 whitespace-nowrap">Contact Us</div>
             <div className="">
-              <div className="whitespace-nowrap">
+              <div className="whitespace-nowrap text-sm">
                 adam.e.burns@vanderbilt.edu
               </div>
-              <div className="whitespace-nowrap">
+              <div className="whitespace-nowrap text-sm">
                 ethan.j.schulman@vanderbilt.edu
               </div>
-              <div className="whitespace-nowrap">
+              <div className="whitespace-nowrap text-sm">
                 dylan.j.tovitz@vanderbilt.edu
+              </div>
+              <div className="whitespace-nowrap text-sm">
+                jacob.s.silverman@vanderbilt.edu
               </div>
             </div>
           </div>
