@@ -131,7 +131,7 @@ export const uploadImage = async (request: ImageUploadRequest): Promise<ImageUpl
         processedFile = await resizeImageToFitSize(file, maxSizeBytes);
       } catch (resizeError) {
         const errorMessage = resizeError instanceof Error ? resizeError.message : 'Unknown error';
-        throw new Error(`Image too large (${(file.size / 1024).toFixed(1)}KB) and could not be resized to fit ${(maxSizeBytes / 1024).toFixed(1)}KB limit: ${errorMessage}`);
+        throw new Error(`Image too large (${(file.size / 1024).toFixed(1)}KB) and could not be resized to fit ${(maxSizeBytes / 1024).toFixed(1)}KB limit. Please choose a smaller image or resize it using an online tool.`);
       }
     }
     

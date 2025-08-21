@@ -12,16 +12,24 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center text-center sm:text-left sm:items-start gap-2 sm:gap-16 sm:mx-4">
           {/* Contact Us */}
           <div className="flex-shrink-0 min-w-0">
-            <div className="text-xl font-semibold mb-0 sm:mb-4 whitespace-nowrap">Contact Us</div>
-            <div className="whitespace-nowrap">
-              vsbc@vanderbilt.edu
+            <div className="text-xl font-semibold mb-0 sm:mb-2 whitespace-nowrap">Contact Us</div>
+            <div className="">
+              <div className="whitespace-nowrap">
+                adam.e.burns@vanderbilt.edu
+              </div>
+              <div className="whitespace-nowrap">
+                ethan.j.schulman@vanderbilt.edu
+              </div>
+              <div className="whitespace-nowrap">
+                dylan.j.tovitz@vanderbilt.edu
+              </div>
             </div>
           </div>
 
           {/* Connect */}
           <div className="flex-shrink-0 min-w-0">
-            <div className="text-xl font-semibold mb-1 sm:mb-4 whitespace-nowrap hidden sm:block ">Connect</div>
-            <div className="flex gap-4">
+            <div className="text-xl font-semibold mb-1 sm:mb-3 whitespace-nowrap hidden sm:block ">Connect</div>
+            <div className="flex gap-4 mb-1 sm:mb-3">
               <a target="_blank" rel="noopener noreferrer" href="https://groupme.com/join_group/103038683/9a9nPuLp" aria-label="GroupMe" className="text-white hover:text-blue-400 transition-colors">
                 <img
                   src="/GroupMeBlue.png"
@@ -57,53 +65,37 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-          </div>
-
-          {/* Interest Forms */}
-          <div className="flex-shrink-0 min-w-0">
-            <div className="text-xl font-semibold mb-0 mt-1 sm:mt-0 sm:mb-3 whitespace-nowrap">Interest Forms</div>
-            <div className="gap-4 sm:gap-1 flex flex-row sm:flex-col">
-              <div>
+            <div>
               <a
                 href="https://groupme.com/join_group/103038683/9a9nPuLp"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block text-md underline hover:text-blue-400 whitespace-nowrap"
               >
-                Individuals
+                Interest Form
               </a>
-              </div>
-              <div>
-              <a
-                href="https://groupme.com/join_group/103038683/9a9nPuLp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-md underline hover:text-blue-400 whitespace-nowrap"
-              >
-                Organizations
-              </a>
-              </div>
             </div>
           </div>
         </div>
 
+
         {/* Theme Toggle - Positioned in bottom right */}
         <div className="absolute bottom-4 right-6">
           <button
-              onClick={() => dispatch(toggleTheme())}
-              className="size-6 hover:scale-110 transition-all duration-300"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <svg className="text-custom-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              ) : (
-                <svg className="text-flat-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              )}
-            </button>
+            onClick={() => dispatch(toggleTheme())}
+            className="size-6 hover:scale-110 transition-all duration-300"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? (
+              <svg className="text-custom-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            ) : (
+              <svg className="text-flat-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
     </footer>

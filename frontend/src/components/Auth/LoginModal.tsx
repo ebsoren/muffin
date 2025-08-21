@@ -19,7 +19,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `https://www.vanderbiltsportsbusinessclub.org/auth/callback`,
+          redirectTo: `https://www.vanderbiltsbac.org/auth/callback`,
           queryParams: { 
             access_type: 'offline', 
             prompt: 'consent' 

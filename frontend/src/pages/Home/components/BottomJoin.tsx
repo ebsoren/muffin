@@ -6,7 +6,7 @@ export const BottomJoin = () => {
             <div className="text-6xl font-bold text-flat-gold">
                 Interested?
             </div>
-            <JoinUs opt="VSBC" />
+            <JoinUs opt="VSBAC" />
         </div>
     )
 }

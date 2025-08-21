@@ -67,7 +67,7 @@ export function NavBar() {
               to="/" 
               className="text-xl font-bold text-flat-gold dark:text-custom-black"
             >
-              VSBC
+              VSBAC
             </Link>
           </div>
 

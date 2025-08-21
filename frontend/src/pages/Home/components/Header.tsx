@@ -81,7 +81,7 @@ export default function Header() {
         
         {/* Content with relative positioning to appear above overlay */}
         <div className="relative z-10 text-4xl md:text-6xl lg:text-7xl text-white justify-center text-center px-4">
-          <span className="font-bold">VSBC</span><span className="font-normal"> is sports and</span>
+          <span className="font-bold">VSBAC</span><span className="font-normal"> is sports and</span>
         </div>
         <div className="relative z-10 flex flex-col items-center justify-center gap-8 sm:gap-12 md:gap-16 lg:gap-20 px-4">
           <AnimatedText />
@@ -89,7 +89,7 @@ export default function Header() {
         </div>
       </div>
       <div className="bg-gray-300 border-y-6 border-flat-gold text-custom-black text-xl sm:text-2xl md:text-3xl lg:text-4xl text-left px-4 sm:px-6 md:px-10 lg:px-30 py-10 sm:py-15 md:py-20">
-        VSBC is the place to break into the sports industry. We help motivated students connect with industry professionals and impactful speakers, provide mentorship and networking opportunities, and offer a space to explore and enjoy sports business, analytics, management, and finance.
+        Vanderbilt Sports Business and Analytics Club is the place to break into the sports industry. We help motivated students connect with industry professionals and impactful speakers, provide mentorship and networking opportunities, and offer a space to explore and enjoy sports business, analytics, management, and finance.
       </div>
     </div>
   );
