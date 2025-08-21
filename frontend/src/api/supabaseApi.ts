@@ -597,7 +597,7 @@ export const getClubEvents = async (): Promise<Event[]> => {
     .from('event')
     .select('*')
     .eq('event_type', 'club')
-    .order('date', { ascending: false });
+    .order('date', { ascending: true });
   
   if (error) {
     throw new Error(`Failed to fetch club events: ${error.message}`);
@@ -640,7 +640,7 @@ export const getRecruitingEvents = async (): Promise<Event[]> => {
     .from('event')
     .select('*')
     .eq('event_type', 'recruiting')
-    .order('date', { ascending: false });
+    .order('date', { ascending: true });
   
   if (error) {
     throw new Error(`Failed to fetch recruiting events: ${error.message}`);
