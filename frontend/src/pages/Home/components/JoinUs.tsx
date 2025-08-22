@@ -1,9 +1,11 @@
+import { GROUPME_URL } from "../../../utils/constants";
+
 interface JoinUsProps {
     opt?: string
 }
 export const JoinUs = ({ opt }: JoinUsProps) => {
     return <a
-        href="https://forms.google.com/fake-join-form"
+        href={GROUPME_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="group inline-flex items-center gap-3 px-8 py-4 bg-flat-gold hover:bg-flat-gold-hover text-white font-bold text-2xl rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out border-2 border-transparent hover:border-white/20"

@@ -111,7 +111,7 @@ export function NavBar() {
               rel="noopener noreferrer"
               className="text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors"
             >
-              Blog
+              Substack
             </a>
             {isAuthenticated && !isLoading && isMember &&(
             <Link 
@@ -267,7 +267,7 @@ export function NavBar() {
                 onClick={closeMobileMenu}
                 className="text-flat-gold hover:text-flat-gold-hover dark:text-custom-black dark:hover:text-gray-800 transition-colors"
               >
-                Blog
+                Substack
               </a>
               {isAuthenticated && !isLoading && isMember &&(
               <Link 

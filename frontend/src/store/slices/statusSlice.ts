@@ -9,7 +9,7 @@ interface StatusState {
 const initialState: StatusState = {
   isLoading: false,
   currentPage: 'home',
-  theme: 'dark',
+  theme: 'light',
 };
 
 export const statusSlice = createSlice({
