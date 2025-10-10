@@ -26,13 +26,13 @@ export function Admin() {
   }, [isAuthenticated, user, navigate]);
 
   return ( isAuthenticated && user?.is_admin &&
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 sm:py-12 w-full lg:w-1/2">
+    <div className="min-h-screen bg-white py-8 sm:py-12 w-full lg:w-1/2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6 sm:mb-8">
-          <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="text-2xl sm:text-3xl font-bold font-heading text-gray-800">
             Admin Dashboard
           </div>
-          <p className="mt-2 text-base sm:text-lg text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-base sm:text-lg text-gray-600">
             Manage events, members, and system settings
           </p>
         </div>

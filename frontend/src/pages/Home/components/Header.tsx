@@ -21,7 +21,7 @@ const AnimatedText = () => {
   }, []);
 
   return (
-    <div className="text-5xl md:text-8xl lg:text-9xl font-bold text-flat-gold flex items-center justify-center text-center px-4">
+    <div className="text-5xl md:text-8xl lg:text-9xl font-bold font-heading text-flat-gold flex items-center justify-center text-center px-4">
       <span
         className={`transition-all duration-400 ease-in-out ${isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
           }`}
@@ -88,7 +88,7 @@ export default function Header() {
           <JoinUs opt="Us" />
         </div>
       </div>
-      <div className="bg-gray-300 border-y-6 border-flat-gold text-custom-black text-xl sm:text-2xl md:text-3xl lg:text-4xl text-left px-4 sm:px-6 md:px-10 lg:px-30 py-10 sm:py-15 md:py-20">
+      <div className="bg-gray-100 text-gray-800 text-lg sm:text-xl md:text-2xl lg:text-3xl text-left px-4 sm:px-6 md:px-10 lg:px-30 py-8 sm:py-10 md:py-12">
         Vanderbilt Sports Business and Analytics Club is the place to break into the sports industry. We help motivated students connect with industry professionals and impactful speakers, provide mentorship and networking opportunities, and offer a space to explore and enjoy sports business, analytics, management, and finance.
       </div>
     </div>

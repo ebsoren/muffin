@@ -2,7 +2,7 @@
 // 
 // Image Upload Features:
 // - Automatic image resizing to meet size limits
-// - Profile pictures: max 100KB
+// - Profile pictures: max 200KB
 // - Event pictures: max 200KB  
 // - Media images: max 2MB
 // - Resizing uses quality reduction and dimension scaling for optimal results
@@ -117,7 +117,7 @@ export const uploadImage = async (request: ImageUploadRequest): Promise<ImageUpl
     
     // Define size limits for each bucket type
     const sizeLimits = {
-      profile: 100 * 1024,      // 100KB for profile pictures
+      profile: 200 * 1024,      // 200KB for profile pictures
       event: 200 * 1024,        // 200KB for event pictures
       media: 2 * 1024 * 1024    // 2MB for media images
     };

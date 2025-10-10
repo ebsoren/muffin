@@ -37,10 +37,10 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-custom-gray bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto shadow-xl">
         <div className="flex justify-between items-center mb-6">
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">Log in</div>
+          <div className="text-2xl font-bold text-gray-800">Log in</div>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"

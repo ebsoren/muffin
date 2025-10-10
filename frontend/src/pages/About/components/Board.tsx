@@ -4,20 +4,24 @@ import { BoardMember } from './BoardMember';
 export default function Board() {
   const boardMembers = useAppSelector(state => state.board);
   return (
-    <div className="w-full bg-white dark:bg-custom-black duration-200 py-6 sm:py-8 px-4">
-        <div className="text-5xl sm:text-6xl md:text-7xl font-bold text-flat-gold dark:text-white mb-6 sm:mb-8 text-center">
+    <div className="w-full bg-white duration-200 px-4">
+        <div className="text-4xl sm:text-5xl md:text-6xl font-bold font-heading text-gray-800 mb-12 sm:mb-16 text-center">
           Executive Board
         </div>
         
         {boardMembers.length === 0 ? (
-          <div className="text-center py-8 sm:py-12">
+          <div className="text-center py-12">
             <p className="text-flat-gold text-base sm:text-lg">Board information coming soon.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 pt-6 sm:pt-8 gap-4 sm:gap-6 justify-items-center justify-content-center">
+          <div className="bg-gray-100 py-8 sm:py-10 md:py-12 px-4 rounded-lg">
+            <div className="flex flex-wrap justify-center gap-8 sm:gap-10 md:gap-12">
             {boardMembers.map((member, index) => (
-              <BoardMember key={index} member={member} />
+              <div key={index} className="w-40 sm:w-48 md:w-52 flex-shrink-0">
+                <BoardMember member={member} />
+              </div>
             ))}
+            </div>
           </div>
         )}
     </div>

@@ -37,11 +37,11 @@ export default function MemberImageUpload({ onImageUploaded, currentImage, class
       return;
     }
 
-    // Validate file size (100KB limit) and resize if needed
+    // Validate file size (200KB limit) and resize if needed
     let fileToUpload = file;
-    if (file.size > 100 * 1024) {
+    if (file.size > 200 * 1024) {
       try {
-        fileToUpload = await resizeImageToFitSize(file, 100 * 1024);
+        fileToUpload = await resizeImageToFitSize(file, 200 * 1024);
       } catch (error) {
         setUploadError(`Failed to resize image: ${error instanceof Error ? error.message : 'Unknown error'}`);
         return;
@@ -215,7 +215,7 @@ export default function MemberImageUpload({ onImageUploaded, currentImage, class
               or drag and drop
             </div>
             <p className="text-xs text-gray-400 dark:text-gray-500">
-              PNG, JPEG, JPG up to 100KB
+              PNG, JPEG, JPG up to 200KB
             </p>
           </div>
         )}

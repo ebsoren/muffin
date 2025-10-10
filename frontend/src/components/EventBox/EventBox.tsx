@@ -39,7 +39,7 @@ export function EventBox({ event, size }: EventBoxProps) {
   return (
     <div 
       ref={eventBoxRef}
-      className={`${size == "large" ? "h-80 sm:h-96 md:h-108 lg:h-120" : (size == "medium" ? "h-64 sm:h-80 md:h-90 lg:h-100" : "h-56 sm:h-64 md:h-72 lg:h-80")} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-1000 ease-out relative group ${
+      className={`${size == "large" ? "h-80 sm:h-96 md:h-108 lg:h-120" : (size == "medium" ? "h-64 sm:h-80 md:h-90 lg:h-100" : "h-80 sm:h-96 md:h-104 lg:h-112")} rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-1000 ease-out relative group ${
         isVisible 
           ? 'opacity-100' 
           : 'opacity-0'

@@ -111,11 +111,14 @@ const CompanyLogos = () => {
                     }`}
             >
                 {[...companyImages, ...companyImages].map((image, index) => (
-                    <div key={`${image.name}-${index}`} className="flex-shrink-0">
+                    <div 
+                        key={`${image.name}-${index}`} 
+                        className="flex-shrink-0 w-48 h-32 sm:w-56 sm:h-36 md:w-64 md:h-40 bg-white flex items-center justify-center p-4"
+                    >
                         <img
                             src={image.url}
                             alt={`Company logo ${image.name}`}
-                            className="h-50 w-auto object-contain transition-all duration-300"
+                            className="max-w-full max-h-full object-contain transition-all duration-300"
                             loading="lazy"
                         />
                     </div>
@@ -127,8 +130,8 @@ const CompanyLogos = () => {
 
 export const WeWorkHere = () => {
     return (
-        <div className="border-y-6 border-flat-gold bg-gray-200 py-5 sm:py-8 md:py-10 text-xl sm:text-2xl md:text-3xl text-custom-black text-center dark:text-custom-black leading-relaxed px-4">
-            <div className="text-5xl font-bold text-flat-gold mb-8 sm:mb-10 md:mb-12">
+        <div className="bg-white py-8 sm:py-10 md:py-12 text-xl sm:text-2xl md:text-3xl text-gray-800 text-center leading-relaxed px-4">
+            <div className="text-5xl font-bold font-heading text-gray-800 mb-8 sm:mb-10">
                 We Work Here
             </div>
             <CompanyLogos />

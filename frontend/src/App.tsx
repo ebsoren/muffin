@@ -20,7 +20,7 @@ function AppContent() {
   useAuth();
 
   return (
-    <div className="w-full min-h-screen flex flex-col bg-white dark:bg-custom-black duration-200">
+    <div className="w-full min-h-screen flex flex-col bg-white duration-200">
       <NavBar />
       <main className="flex justify-center">
         <Routes>

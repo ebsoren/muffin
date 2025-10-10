@@ -60,9 +60,9 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
         return;
       }
       
-      // Validate file size (100KB limit) and resize if needed
-      if (file.size > 100 * 1024) {
-        resizeImageToFitSize(file, 100 * 1024).then(resizedFile => {
+      // Validate file size (200KB limit) and resize if needed
+      if (file.size > 200 * 1024) {
+        resizeImageToFitSize(file, 200 * 1024).then(resizedFile => {
           setSelectedImage(resizedFile);
           const url = URL.createObjectURL(resizedFile);
           setPreviewUrl(url);
@@ -289,7 +289,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onProfileUpdate, c
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-flat-gold focus:border-flat-gold dark:bg-gray-700 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-flat-gold file:text-white hover:file:bg-flat-gold-hover"
             />
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Upload a profile picture (PNG, JPEG, JPG only). Max size: 100KB.
+              Upload a profile picture (PNG, JPEG, JPG only). Max size: 200KB.
             </p>
             
             {previewUrl && (

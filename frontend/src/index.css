@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @custom-variant dark (&:where(.dark, .dark *));                        
 
 @theme {
@@ -7,10 +9,12 @@
   --color-custom-black: #1C1C1C;
   --color-custom-black-hover: #0C0C0C;
   --color-custom-gray: #777777;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Space Grotesk', 'Inter', sans-serif;
 }
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
 
@@ -41,7 +45,7 @@
 }
 
 .animate-scroll-left {
-  animation: scroll-left 30s linear infinite;
+  animation: scroll-left 20s linear infinite;
 }
 
 @media (min-width: 768px) {

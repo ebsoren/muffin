@@ -1,4 +1,5 @@
 import Board from './components/Board'
+import { WeWorkHere } from '../Home/components/WeWorkHere';
 
 import { useBoardMembers } from '../../hooks/BoardHook';
 import { useMembers } from '../../hooks/MemberHook';
@@ -21,12 +22,13 @@ export function About() {
   }
 
   return (
-    <div className="min-h-screen w-full lg:mx-12 bg-white dark:bg-custom-black duration-200">
-      <div className="text-3xl sm:text-4xl lg:text-5xl text-center text-flat-gold m-8">
+    <div className="min-h-screen w-full lg:mx-12 bg-white duration-200">
+      <div className="text-xl sm:text-2xl lg:text-3xl text-center text-flat-gold py-8 sm:py-10 px-6 font-medium">
         Our mission is to approach the sports industry with innovative data analytics and strategic insights that enhance performance, on and off the field.
       </div>
 
       <Board />
+      <WeWorkHere />
       {/* <Members/> */}
     </div>
   );

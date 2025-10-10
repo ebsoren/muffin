@@ -9,9 +9,11 @@ export default function Members() {
         Members
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
+      <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
         {members?.map((member, index) => (
-          <MemberBox key={index} member={member} />
+          <div key={index} className="w-32 sm:w-36 md:w-40 flex-shrink-0">
+            <MemberBox member={member} />
+          </div>
         ))}
       </div>
 
