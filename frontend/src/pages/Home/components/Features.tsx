@@ -34,13 +34,13 @@ export default function Features() {
   return (
     <div 
       ref={featuresRef}
-      className={`transition-all duration-1000 ease-out ${
+      className={`px-4 sm:px-6 md:px-8 transition-all duration-1000 ease-out ${
         isVisible 
           ? 'opacity-100' 
           : 'opacity-0'
       }`}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-2 sm:m-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {features.map((event, index) => (
           <EventBox key={index} event={event} size={"large"} />
         ))}

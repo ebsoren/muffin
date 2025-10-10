@@ -59,7 +59,7 @@ export function NavBar() {
 
   return (
     <>
-      <nav className="w-full bg-gray-50 px-4 py-4 duration-200">
+      <nav className="w-full bg-gray-50 px-4 sm:px-6 md:px-8 py-4 duration-200">
         <div className="flex justify-between items-center">
           {/* Logo/Brand */}
           <div className="flex items-center">
@@ -164,10 +164,10 @@ export function NavBar() {
                       {user?.first_name?.[0] || user?.email?.[0] || 'U'}
                     </span>
                   </div>
-                  <span className="text-black dark:text-white font-medium">
+                  <span className="text-custom-black dark:text-white font-medium">
                     {user?.first_name || user?.email}
                   </span>
-                  <svg className="w-4 h-4 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-custom-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>

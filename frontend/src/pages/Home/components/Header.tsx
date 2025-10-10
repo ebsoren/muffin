@@ -61,10 +61,10 @@ export default function Header() {
   }, []);
 
   return (
-    <div>
+    <div className="px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 md:pt-8">
       <div 
         ref={headerRef}
-        className={`h-[95vh] flex flex-col justify-center items-center relative transition-all duration-1000 ease-out ${
+        className={`h-[90vh] sm:h-[87vh] md:h-[85vh] flex flex-col justify-center items-center relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl transition-all duration-1000 ease-out ${
           isVisible 
             ? 'opacity-100' 
             : 'opacity-0'
@@ -88,7 +88,7 @@ export default function Header() {
           <JoinUs opt="Us" />
         </div>
       </div>
-      <div className="bg-gray-100 text-gray-800 text-lg sm:text-xl md:text-2xl lg:text-3xl text-left px-4 sm:px-6 md:px-10 lg:px-30 py-8 sm:py-10 md:py-12">
+      <div className="bg-white text-gray-800 text-lg sm:text-xl md:text-2xl lg:text-3xl text-left px-4 sm:px-6 md:px-10 lg:px-30 py-8 sm:py-10 md:py-12 rounded-2xl sm:rounded-3xl">
         Vanderbilt Sports Business and Analytics Club is the place to break into the sports industry. We help motivated students connect with industry professionals and impactful speakers, provide mentorship and networking opportunities, and offer a space to explore and enjoy sports business, analytics, management, and finance.
       </div>
     </div>

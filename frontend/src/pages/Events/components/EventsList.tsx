@@ -5,8 +5,8 @@ export default function EventsList() {
   const events = useAppSelector(state => state.events);
 
   return (
-    <div className="w-full px-4 sm:px-6 md:px-8 py-8 sm:py-10">
-      <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-flat-gold text-center mb-8 sm:mb-10">
+    <div className="w-full px-4 sm:px-6 md:px-8 pt-8 sm:pt-10">
+      <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-custom-black text-center mb-8 sm:mb-10">
         Upcoming Events
       </div>
       <div className="justify-center items-center">

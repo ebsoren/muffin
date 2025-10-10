@@ -20,7 +20,7 @@ export function Join() {
   }
 
   return (
-    <div className="w-full bg-white dark:bg-custom-black duration-200 mb-6">
+    <div className="w-full bg-white dark:bg-custom-black duration-200 px-4 sm:px-6 md:px-8 pt-8 sm:pt-10">
       <div className="mx-auto">
         <Header/>
         <Timeline/>
