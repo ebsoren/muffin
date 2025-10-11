@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logout, clearError } from '../../store/slices/authSlice';
 import { LoginModal } from '../Auth/LoginModal';
 import { supabase } from '../../utils/supabaseClient';
+import { GROUPME_URL } from '../../utils/constants';
 
 export function NavBar() {
   const dispatch = useAppDispatch();
@@ -97,6 +98,14 @@ export function NavBar() {
             >
               Events
             </Link>
+            <a 
+              href={GROUPME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-flat-gold transition-colors"
+            >
+              Join
+            </a>
             <a 
               href="https://vsbacblog.substack.com/" 
               target="_blank"
@@ -243,6 +252,15 @@ export function NavBar() {
               >
                 Events
               </Link>
+              <a 
+                href={GROUPME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeMobileMenu}
+                className="text-gray-700 hover:text-flat-gold transition-colors"
+              >
+                Join
+              </a>
               <a 
                 href="https://vsbacblog.substack.com/" 
                 target="_blank"
