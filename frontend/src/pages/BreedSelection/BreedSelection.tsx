@@ -61,10 +61,15 @@ export function BreedSelection() {
 
   const fetchExistingPrediction = async () => {
     try {
+      const { data: authData, error: authErr } = await supabase.auth.getUser();
+      if (authErr || !authData.user) {
+        setExistingPrediction(null);
+        return;
+      }
+  
       const { data, error } = await supabase
         .from('predictions')
-        .select(
-          `
+        .select(`
           id,
           prediction_picks (
             pct,
@@ -72,37 +77,38 @@ export function BreedSelection() {
               type_name
             )
           )
-        `
-        )
+        `)
+        .eq('user_id', authData.user.id)
         .limit(1)
         .maybeSingle();
-
+  
       if (error) {
         console.error('Error fetching existing prediction:', error);
         setExistingPrediction(null);
         return;
       }
-
+  
       if (!data) {
         setExistingPrediction(null);
         return;
       }
-
-      const picks: ExistingPick[] =
+  
+      const picks =
         (data.prediction_picks ?? [])
           .filter((p: any) => p?.breed_type?.type_name != null)
           .map((p: any) => ({
             type_name: p.breed_type.type_name,
             pct: Number(p.pct),
           }))
-          .filter((p: ExistingPick) => Number.isFinite(p.pct));
-
+          .filter((p: any) => Number.isFinite(p.pct));
+  
       setExistingPrediction(picks);
     } catch (err) {
       console.error('Error fetching existing prediction:', err);
       setExistingPrediction(null);
     }
   };
+  
 
   const addComponent = () => {
     const newId = Date.now().toString();
