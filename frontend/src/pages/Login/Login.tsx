@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabaseClient';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginStart, loginFailure, supabaseAuthSuccess } from '../../store/slices/authSlice';
@@ -9,7 +10,14 @@ export function Login() {
   const [firstName, setFirstName] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector(state => state.auth);
+  const navigate = useNavigate();
+  const { isLoading, error, isAuthenticated } = useAppSelector(state => state.auth);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/breed-selection');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
