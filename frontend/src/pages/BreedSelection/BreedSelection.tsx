@@ -15,8 +15,6 @@ type ExistingPick = { type_name: string; pct: number };
 export function BreedSelection() {
   const [components, setComponents] = useState<BreedComponent[]>([
     { id: '1', breed: '', percentage: '' },
-    { id: '2', breed: '', percentage: '' },
-    { id: '3', breed: '', percentage: '' },
   ]);
 
   const [breedOptions, setBreedOptions] = useState<BreedOption[]>([]);
@@ -126,7 +124,8 @@ export function BreedSelection() {
     return sum + (Number.isFinite(pct) ? pct : 0);
   }, 0);
 
-  const isValid = totalPercentage === 100;
+  const allBreedsSelected = components.every(comp => comp.breed && comp.breed.trim() !== '');
+  const isValid = totalPercentage === 100 && allBreedsSelected;
 
   const handleSubmit = async () => {
     if (!isValid) return;
